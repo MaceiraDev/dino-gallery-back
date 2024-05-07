@@ -1,10 +1,8 @@
 package gallery_dinosaur.controller;
 
-import gallery_dinosaur.DTO.DietaRequestDTO;
-import gallery_dinosaur.DTO.DietaResponseDTO;
+
 import gallery_dinosaur.DTO.PeriodoRequestDTO;
 import gallery_dinosaur.DTO.PeriodoResponseDTO;
-import gallery_dinosaur.model.Dieta;
 import gallery_dinosaur.model.Periodo;
 import gallery_dinosaur.repository.PeriodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
