@@ -35,4 +35,5 @@ public class DietaController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Dieta criada com sucesso!");
 
     }
+
 }
