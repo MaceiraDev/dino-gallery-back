@@ -1,7 +1,5 @@
 package gallery_dinosaur.controller;
 
-
-
 import gallery_dinosaur.DTO.DominioRequestDTO;
 import gallery_dinosaur.DTO.DominioResponseDTO;
 import gallery_dinosaur.model.Dominio;

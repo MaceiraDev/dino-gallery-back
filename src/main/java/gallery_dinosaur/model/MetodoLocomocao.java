@@ -15,10 +15,11 @@ import javax.validation.constraints.Pattern;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Table(name = "metodosLocomocao")
-@Entity(name = "MetodosLocomocao")
+@Entity(name = "MetodosLocomocaos")
 public class MetodoLocomocao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     private Long id;
     private String tipo;
     @NotNull(message = " Selecione um tipo de locomoção")

@@ -13,7 +13,7 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-@Table(name = "dietas")
+@Table(name = "dieta")
 @Entity(name = "Dietas")
 public class Dieta {
     @Id

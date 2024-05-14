@@ -1,6 +1,6 @@
 package gallery_dinosaur.model;
 
-import gallery_dinosaur.DTO.PeriodoRequestDTO;
+import gallery_dinosaur.DTO.ReinoRequestDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -14,19 +14,18 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-@Table(name = "periodo")
-@Entity(name = "Periodos")
-public class Periodo {
-
+@Table(name = "reino")
+@Entity(name = "Reinos")
+public class Reino {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull(message = "Escolha um periodo")
+    @NotNull(message = "Escolha um Reino")
     @Pattern(regexp = "CRETACEO|TRIASSICO|JURASSICO", message = "O tipo de periodo deve ser 'CRETACEO', 'TRIASSICO' ou 'JURASSICO'")
-    private String dataPeriodo;
+    private String dataReino;
     private String tipo;
 
-    public Periodo(PeriodoRequestDTO data) {
+    public Reino(ReinoRequestDTO data) {
         this.tipo = data.tipo();
     }
 }
