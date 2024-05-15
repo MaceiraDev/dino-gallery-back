@@ -1,11 +1,9 @@
 package gallery_dinosaur.controller;
 
-
-
 import gallery_dinosaur.DTO.MetodoLocomocaoRequestDTO;
 import gallery_dinosaur.DTO.MetodoLocomocaoResponseDTO;
 import gallery_dinosaur.model.MetodoLocomocao;
-import gallery_dinosaur.repository.DietaRepository;
+
 import gallery_dinosaur.repository.MetodoLocomocaoRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,8 @@
 package gallery_dinosaur.model;
 
-import gallery_dinosaur.DTO.DominioRequestDTO;
+
+import gallery_dinosaur.DTO.CladoRequestDTO;
+import gallery_dinosaur.DTO.DietaRequestDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -14,17 +16,21 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-@Table(name = "dominio")
-@Entity(name = "Dominios")
-public class Dominio {
+@Table(name = "clado")
+@Entity(name = "Clados")
+public class Clado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull(message = "Selecione um Dominio")
-    private String tipo;
 
-    public Dominio(DominioRequestDTO data) {
-        this.tipo = data.tipo();}
+    @NotNull(message = "O tipo de clado não pode ser nulo")
+    @Pattern(regexp = " |DINOSSAURIA", message = "Escolha o tipo de clado  'DINOSSAURIA' ")
+    private String tipo;
+    public Clado(CladoRequestDTO data) {
+        this.tipo = data.tipo();
+    }
+
 }
+
 
 
