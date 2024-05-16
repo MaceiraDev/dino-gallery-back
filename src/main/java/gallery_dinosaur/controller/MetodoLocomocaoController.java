@@ -2,6 +2,7 @@ package gallery_dinosaur.controller;
 
 import gallery_dinosaur.DTO.MetodoLocomocaoRequestDTO;
 import gallery_dinosaur.DTO.MetodoLocomocaoResponseDTO;
+import gallery_dinosaur.model.Familia;
 import gallery_dinosaur.model.MetodoLocomocao;
 
 import gallery_dinosaur.repository.MetodoLocomocaoRespository;
@@ -13,11 +14,15 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
+import java.util.logging.Logger;
 
 @RestController
 @Controller
 @RequestMapping("metodo-locomocao")
 public class MetodoLocomocaoController {
+    private static final Logger LOGGER = Logger.getLogger(MetodoLocomocaoController.class.getName());
+
     @Autowired
     MetodoLocomocaoRespository repository;
 
@@ -35,4 +40,23 @@ public class MetodoLocomocaoController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Metodo de Locomoção criada com sucesso!");
 
     }
+    @DeleteMapping("/deletar/{id}")
+     public ResponseEntity<String> deletarMetodoLocomocao(@PathVariable Long id){
+        try {
+            if (id == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID não pode ser nulo.");
+            }
+            Optional<MetodoLocomocao> metodoLocomocaoOptional = repository.findById(id);
+            if (metodoLocomocaoOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Metodo de locomoção não encontrada para o ID: " + id);
+            }
+            repository.deleteById(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Metodo de Locomoção do ID: " + id + " deletada com sucesso!");
+        } catch (Exception e){
+            LOGGER.info("Erro ao deletar" + id);
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o Metodo de Locomoção. Por favor, tente novamente mais tarde.");
+        }
+     }
+
+
 }

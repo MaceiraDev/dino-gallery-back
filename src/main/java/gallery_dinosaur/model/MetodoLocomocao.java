@@ -19,11 +19,10 @@ import javax.validation.constraints.Pattern;
 public class MetodoLocomocao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     private Long id;
-    private String tipo;
     @NotNull(message = " Selecione um tipo de locomoção")
     @Pattern(regexp = "AEREO|TERRESTRE|AQUATICO", message = "Escolha o tipo de locomoção 'AEREO', 'TERRESTRE' ou 'AQUATICO'")
+    private String tipo;
 
     public MetodoLocomocao(MetodoLocomocaoRequestDTO data) {
         this.tipo = data.tipo();

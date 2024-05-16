@@ -4,7 +4,6 @@ package gallery_dinosaur.controller;
 import gallery_dinosaur.DTO.ReinoRequestDTO;
 import gallery_dinosaur.DTO.ReinoResponseDTO;
 import gallery_dinosaur.model.Reino;
-import gallery_dinosaur.model.SubFamilia;
 import gallery_dinosaur.repository.ReinoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,12 +13,15 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
+import java.util.logging.Logger;
 
 @RestController
 @Controller
 @RequestMapping("reino")
 
 public class ReinoController {
+    private static final Logger LOGGER = Logger.getLogger(ReinoController.class.getName());
 
     @Autowired
     ReinoRepository repository;
@@ -36,7 +38,23 @@ public class ReinoController {
         repository.save(reinoData);
         return ResponseEntity.status(HttpStatus.CREATED).body("Reino criada com sucesso!");
     }
-
+    @DeleteMapping("/deletar{id}")
+    public ResponseEntity<String> deletarReino(@PathVariable Long id){
+        try {
+            if (id == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID não pode ser nulo.");
+            }
+            Optional<Reino> reinoOptional = repository.findById(id);
+            if (reinoOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Reino não encontrada para o ID: " + id);
+            }
+            repository.deleteById(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Reino do ID: " + id + " deletada com sucesso!");
+        } catch (Exception e){
+            LOGGER.info("Erro ao deletar" + id);
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o Reino. Por favor, tente novamente mais tarde.");
+        }
+    }
 }
 
 

@@ -28,6 +28,7 @@ public class Periodo {
 
     public Periodo(PeriodoRequestDTO data) {
         this.tipo = data.tipo();
+        this.dataPeriodo = data.dataPeriodo();
     }
 }
 
