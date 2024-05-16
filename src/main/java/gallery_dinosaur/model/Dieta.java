@@ -21,8 +21,8 @@ public class Dieta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull(message = "O tipo de dieta não pode ser nulo")
-    private String tipo;
     @Pattern(regexp = "HERBIVORO|CARNIVORO|ONIVORO", message = "O tipo de dieta deve ser 'HERBIVORO', 'CARNIVORO' ou 'ONIVORO'")
+    private String tipo;
 
 
     public Dieta(DietaRequestDTO data) {

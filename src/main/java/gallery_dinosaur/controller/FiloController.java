@@ -1,6 +1,5 @@
 package gallery_dinosaur.controller;
 
-
 import gallery_dinosaur.DTO.FiloRequestDTO;
 import gallery_dinosaur.DTO.FiloResponseDTO;
 import gallery_dinosaur.model.Filo;
@@ -13,11 +12,14 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
+import java.util.logging.Logger;
 
 @RestController
 @Controller
 @RequestMapping("filo")
 public class FiloController {
+    public static final Logger LOGGER = Logger.getLogger(FiloController.class.getName());
     @Autowired
     FiloRepository repository;
 
@@ -34,6 +36,24 @@ public class FiloController {
         repository.save(filoData);
         return ResponseEntity.status(HttpStatus.CREATED).body(" Filo criado com sucesso!");
 
+    }
+
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity<String> deletarFilo(@PathVariable Long id) {
+        try {
+            if (id == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID não pode ser nulo.");
+            }
+            Optional<Filo> filoOptional = repository.findById(id);
+            if (filoOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Filo não encontrada para o ID: " + id);
+            }
+            repository.deleteById(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Filo do ID: " + id + " deletada com sucesso!");
+        } catch (Exception e) {
+            LOGGER.info("Erro ao deletar a Filo." + id);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o Filo. Por favor, tente novamente mais tarde.");
+        }
     }
 
 }
