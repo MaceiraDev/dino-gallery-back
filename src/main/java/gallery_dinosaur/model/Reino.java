@@ -3,10 +3,7 @@ package gallery_dinosaur.model;
 import gallery_dinosaur.DTO.ReinoRequestDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.Pattern;
 
@@ -20,6 +17,7 @@ public class Reino {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Setter
     @NotNull(message = "Escolha um Reino")
     @Pattern(regexp = "CRETACEO|TRIASSICO|JURASSICO", message = "O tipo de periodo deve ser 'CRETACEO', 'TRIASSICO' ou 'JURASSICO'")
     private String tipo;

@@ -3,10 +3,7 @@ package gallery_dinosaur.model;
 import gallery_dinosaur.DTO.DietaRequestDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.Pattern;
 
@@ -20,12 +17,13 @@ public class Dieta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Setter
     @NotNull(message = "O tipo de dieta não pode ser nulo")
     @Pattern(regexp = "HERBIVORO|CARNIVORO|ONIVORO", message = "O tipo de dieta deve ser 'HERBIVORO', 'CARNIVORO' ou 'ONIVORO'")
     private String tipo;
 
-
     public Dieta(DietaRequestDTO data) {
         this.tipo = data.tipo();
     }
+
 }

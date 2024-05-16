@@ -1,5 +1,6 @@
 package gallery_dinosaur.controller;
 
+import gallery_dinosaur.DTO.ReinoRequestDTO;
 import gallery_dinosaur.DTO.SubFamiliaRequestDTO;
 import gallery_dinosaur.DTO.SubFamiliaResponseDTO;
 import gallery_dinosaur.model.Reino;
@@ -10,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 @RestController
 @Controller
-@RequestMapping("SubFamilia")
+@RequestMapping("sub-familia")
 
 public class SubFamiliaController {
     private static final Logger LOGGER = Logger.getLogger(SubFamiliaController.class.getName());
@@ -41,7 +41,7 @@ public class SubFamiliaController {
         return ResponseEntity.status(HttpStatus.CREATED).body("SubFamilia criada com sucesso!");
     }
 
-    @DeleteMapping("/deletar{id}")
+    @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarSubFamilia(@PathVariable Long id){
         try {
             if (id == null) {
@@ -58,6 +58,21 @@ public class SubFamiliaController {
             return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o SubFamilia. Por favor, tente novamente mais tarde.");
         }
     }
-
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<String> atualizarSubFamilia(@PathVariable Long id, @Valid @RequestBody SubFamiliaRequestDTO data) {
+        try {
+            Optional<SubFamilia> subfamiliaOptional = repository.findById(id);
+            if (subfamiliaOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("SubFamilia não encontrada para o ID: " + id);
+            }
+            SubFamilia subfamilia = subfamiliaOptional.get();
+            subfamilia.setTipo(data.tipo());
+            repository.save(subfamilia);
+            return ResponseEntity.status(HttpStatus.OK).body("SubFamilia do ID: " + id + " atualizada com sucesso!");
+        } catch (Exception e) {
+            LOGGER.severe("Erro ao atualizar a SubFamilia com ID: " + id + ". Erro: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar o Reino. Por favor, tente novamente mais tarde.");
+        }
+    }
 
 }

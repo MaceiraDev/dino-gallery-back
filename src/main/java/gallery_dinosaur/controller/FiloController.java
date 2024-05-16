@@ -55,5 +55,20 @@ public class FiloController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o Filo. Por favor, tente novamente mais tarde.");
         }
     }
-
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<String> atualizarFilo(@PathVariable Long id, @Valid @RequestBody FiloRequestDTO data) {
+        try {
+            Optional<Filo> filoOptional = repository.findById(id);
+            if (filoOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Filo não encontrada para o ID: " + id);
+            }
+            Filo filo = filoOptional.get();
+            filo.setTipo(data.tipo());
+            repository.save(filo);
+            return ResponseEntity.status(HttpStatus.OK).body("Filo do ID: " + id + " atualizada com sucesso!");
+        } catch (Exception e) {
+            LOGGER.severe("Erro ao atualizar o Filo com ID: " + id + ". Erro: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar o Filo. Por favor, tente novamente mais tarde.");
+        }
+    }
 }

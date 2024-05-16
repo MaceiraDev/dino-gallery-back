@@ -40,8 +40,9 @@ public class PeriodoController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Periodo criada com sucesso!");
 
     }
-    @DeleteMapping("/deletar{id}")
-    public ResponseEntity<String> deletarPeriodo(@PathVariable Long id){
+
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity<String> deletarPeriodo(@PathVariable Long id) {
         try {
             if (id == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID não pode ser nulo.");
@@ -52,9 +53,27 @@ public class PeriodoController {
             }
             repository.deleteById(id);
             return ResponseEntity.status(HttpStatus.OK).body("Periodo do ID: " + id + " deletada com sucesso!");
-        } catch (Exception e){
+        } catch (Exception e) {
             LOGGER.info("Erro ao deletar" + id);
-            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o Metodo de Locomoção. Por favor, tente novamente mais tarde.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o Metodo de Locomoção. Por favor, tente novamente mais tarde.");
         }
     }
+
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<String> atualizarPeriodo(@PathVariable Long id, @Valid @RequestBody PeriodoRequestDTO data) {
+        try {
+            Optional<Periodo> periodoOptional = repository.findById(id);
+            if (periodoOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Periodo não encontrada para o ID: " + id);
+            }
+            Periodo periodo = periodoOptional.get();
+            periodo.setTipo(data.tipo());
+            repository.save(periodo);
+            return ResponseEntity.status(HttpStatus.OK).body("Periodo do ID: " + id + " atualizada com sucesso!");
+        } catch (Exception e) {
+            LOGGER.severe("Erro ao atualizar o Periodo com ID: " + id + ". Erro: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar o Periodo. Por favor, tente novamente mais tarde.");
+        }
+    }
+
 }

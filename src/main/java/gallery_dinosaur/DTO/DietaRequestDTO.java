@@ -9,5 +9,4 @@ public record DietaRequestDTO(
         @Pattern(regexp = "HERBIVORO|CARNIVORO|ONIVORO", message = "O tipo de dieta deve ser 'HERBIVORO', 'CARNIVORO' ou 'ONIVORO'")
         String tipo
 ) {
-
 }

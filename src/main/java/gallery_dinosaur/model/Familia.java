@@ -3,10 +3,7 @@ package gallery_dinosaur.model;
 import gallery_dinosaur.DTO.FamiliaRequestDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.Pattern;
 
@@ -20,6 +17,7 @@ public class Familia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Setter
     @NotNull(message = "Selecione uma Familia")
     @Pattern(regexp = " |CHORDATA", message = "Escolha o tipo de familia 'CHORDATA', ")
     private String tipo;

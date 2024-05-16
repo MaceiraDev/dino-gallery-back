@@ -1,10 +1,10 @@
 package gallery_dinosaur.controller;
 
+import gallery_dinosaur.DTO.FiloRequestDTO;
 import gallery_dinosaur.DTO.MetodoLocomocaoRequestDTO;
 import gallery_dinosaur.DTO.MetodoLocomocaoResponseDTO;
-import gallery_dinosaur.model.Familia;
+import gallery_dinosaur.model.Filo;
 import gallery_dinosaur.model.MetodoLocomocao;
-
 import gallery_dinosaur.repository.MetodoLocomocaoRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,6 +57,21 @@ public class MetodoLocomocaoController {
             return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o Metodo de Locomoção. Por favor, tente novamente mais tarde.");
         }
      }
-
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<String> atualizarMetodoLocomocao(@PathVariable Long id, @Valid @RequestBody MetodoLocomocaoRequestDTO data) {
+        try {
+            Optional<MetodoLocomocao> metodolocomocaoOptional = repository.findById(id);
+            if (metodolocomocaoOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Metodo Locomocao não encontrada para o ID: " + id);
+            }
+            MetodoLocomocao metodolocomocao = metodolocomocaoOptional.get();
+            metodolocomocao.setTipo(data.tipo());
+            repository.save(metodolocomocao);
+            return ResponseEntity.status(HttpStatus.OK).body("Metodo Locomocao do ID: " + id + " atualizada com sucesso!");
+        } catch (Exception e) {
+            LOGGER.severe("Erro ao atualizar o Metodo Locomocao com ID: " + id + ". Erro: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar o Metodo Locomocao. Por favor, tente novamente mais tarde.");
+        }
+    }
 
 }

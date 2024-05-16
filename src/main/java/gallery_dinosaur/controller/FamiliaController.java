@@ -56,4 +56,20 @@ public class FamiliaController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar a Familia. Por favor, tente novamente mais tarde.");
         }
     }
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<String> atualizarFamilia(@PathVariable Long id, @Valid @RequestBody FamiliaRequestDTO data) {
+        try {
+            Optional<Familia> familiaOptional = repository.findById(id);
+            if (familiaOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Familia não encontrada para o ID: " + id);
+            }
+            Familia familia = familiaOptional.get();
+            familia.setTipo(data.tipo());
+            repository.save(familia);
+            return ResponseEntity.status(HttpStatus.OK).body("Familia do ID: " + id + " atualizada com sucesso!");
+        } catch (Exception e) {
+            LOGGER.severe("Erro ao atualizar a Familia com ID: " + id + ". Erro: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar a Familia. Por favor, tente novamente mais tarde.");
+        }
+    }
 }
