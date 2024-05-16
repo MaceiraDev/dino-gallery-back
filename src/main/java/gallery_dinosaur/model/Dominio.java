@@ -21,10 +21,12 @@ public class Dominio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull(message = "Selecione um Dominio")
+    @Pattern(regexp = " |ONIVORO", message = "O tipo de dominio deve ser 'ONIVORO'")
     private String tipo;
 
     public Dominio(DominioRequestDTO data) {
-        this.tipo = data.tipo();}
+        this.tipo = data.tipo();
+    }
 }
 
 

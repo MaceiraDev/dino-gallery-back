@@ -27,6 +27,7 @@ public class FiloController {
         List<FiloResponseDTO> filoList = repository.findAll().stream().map(FiloResponseDTO::new).toList();
         return filoList;
     }
+
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarFilo(@Valid @RequestBody FiloRequestDTO data) {
         Filo filoData = new Filo(data);

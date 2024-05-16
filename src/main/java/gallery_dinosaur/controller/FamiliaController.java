@@ -27,6 +27,7 @@ public class FamiliaController {
         List<FamiliaResponseDTO> familiaList = repository.findAll().stream().map(FamiliaResponseDTO::new).toList();
         return familiaList;
     }
+
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarFamilia(@Valid @RequestBody FamiliaRequestDTO data) {
         Familia familiaData = new Familia(data);
@@ -34,4 +35,4 @@ public class FamiliaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(" Familia criado com sucesso!");
     }
 
-    }
+}

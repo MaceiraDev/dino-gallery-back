@@ -1,7 +1,6 @@
 package gallery_dinosaur.model;
 
 import gallery_dinosaur.DTO.FiloRequestDTO;
-import gallery_dinosaur.DTO.MetodoLocomocaoRequestDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -24,7 +23,7 @@ public class Filo {
     @NotNull(message = " Selecione o filo")
     @Pattern(regexp = " |CHORDATA", message = "Escolha o tipo de locomoção 'CHORDATA', ")
 
-            public Filo(FiloRequestDTO data) {
+    public Filo(FiloRequestDTO data) {
         this.tipo = data.tipo();
     }
 

@@ -2,7 +2,6 @@ package gallery_dinosaur.model;
 
 
 import gallery_dinosaur.DTO.CladoRequestDTO;
-import gallery_dinosaur.DTO.DietaRequestDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -22,10 +21,10 @@ public class Clado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @NotNull(message = "O tipo de clado não pode ser nulo")
     @Pattern(regexp = " |DINOSSAURIA", message = "Escolha o tipo de clado  'DINOSSAURIA' ")
     private String tipo;
+
     public Clado(CladoRequestDTO data) {
         this.tipo = data.tipo();
     }
