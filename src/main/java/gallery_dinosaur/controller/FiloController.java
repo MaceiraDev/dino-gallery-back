@@ -29,7 +29,7 @@ public class FiloController {
         List<FiloResponseDTO> filoList = repository.findAll().stream().map(FiloResponseDTO::new).toList();
         return filoList;
     }
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarFilo(@Valid @RequestBody FiloRequestDTO data) {
         Filo filoData = new Filo(data);
@@ -37,7 +37,7 @@ public class FiloController {
         return ResponseEntity.status(HttpStatus.CREATED).body(" Filo criado com sucesso!");
 
     }
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarFilo(@PathVariable Long id) {
         try {
@@ -55,5 +55,21 @@ public class FiloController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o Filo. Por favor, tente novamente mais tarde.");
         }
     }
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<String> atualizarFilo(@PathVariable Long id, @Valid @RequestBody FiloRequestDTO data) {
+        try {
+            Optional<Filo> filoOptional = repository.findById(id);
+            if (filoOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Filo não encontrada para o ID: " + id);
+            }
+            Filo filo = filoOptional.get();
+            filo.setTipo(data.tipo());
+            repository.save(filo);
+            return ResponseEntity.status(HttpStatus.OK).body("Filo do ID: " + id + " atualizada com sucesso!");
+        } catch (Exception e) {
+            LOGGER.severe("Erro ao atualizar o Filo com ID: " + id + ". Erro: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar o Filo. Por favor, tente novamente mais tarde.");
+        }
+    }
 }

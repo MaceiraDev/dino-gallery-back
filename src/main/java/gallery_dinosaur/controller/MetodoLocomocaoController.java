@@ -2,9 +2,7 @@ package gallery_dinosaur.controller;
 
 import gallery_dinosaur.DTO.MetodoLocomocaoRequestDTO;
 import gallery_dinosaur.DTO.MetodoLocomocaoResponseDTO;
-import gallery_dinosaur.model.Familia;
 import gallery_dinosaur.model.MetodoLocomocao;
-
 import gallery_dinosaur.repository.MetodoLocomocaoRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,6 +30,7 @@ public class MetodoLocomocaoController {
         List<MetodoLocomocaoResponseDTO> metodolocomocaoList = repository.findAll().stream().map(MetodoLocomocaoResponseDTO::new).toList();
         return metodolocomocaoList;
     }
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
 
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarMetodoLocomocao(@Valid @RequestBody MetodoLocomocaoRequestDTO data) {
@@ -40,6 +39,8 @@ public class MetodoLocomocaoController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Metodo de Locomoção criada com sucesso!");
 
     }
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+
     @DeleteMapping("/deletar/{id}")
      public ResponseEntity<String> deletarMetodoLocomocao(@PathVariable Long id){
         try {
@@ -57,6 +58,23 @@ public class MetodoLocomocaoController {
             return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o Metodo de Locomoção. Por favor, tente novamente mais tarde.");
         }
      }
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
 
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<String> atualizarMetodoLocomocao(@PathVariable Long id, @Valid @RequestBody MetodoLocomocaoRequestDTO data) {
+        try {
+            Optional<MetodoLocomocao> metodolocomocaoOptional = repository.findById(id);
+            if (metodolocomocaoOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Metodo Locomocao não encontrada para o ID: " + id);
+            }
+            MetodoLocomocao metodolocomocao = metodolocomocaoOptional.get();
+            metodolocomocao.setTipo(data.tipo());
+            repository.save(metodolocomocao);
+            return ResponseEntity.status(HttpStatus.OK).body("Metodo Locomocao do ID: " + id + " atualizada com sucesso!");
+        } catch (Exception e) {
+            LOGGER.severe("Erro ao atualizar o Metodo Locomocao com ID: " + id + ". Erro: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar o Metodo Locomocao. Por favor, tente novamente mais tarde.");
+        }
+    }
 
 }

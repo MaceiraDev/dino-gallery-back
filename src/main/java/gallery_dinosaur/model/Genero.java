@@ -4,10 +4,7 @@ package gallery_dinosaur.model;
 import gallery_dinosaur.DTO.GeneroRequestDTO;
 import gallery_dinosaur.DTO.MetodoLocomocaoRequestDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -20,12 +17,13 @@ import javax.validation.constraints.Pattern;
 @EqualsAndHashCode(of = "id")
 
 public class Genero {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        long id;
-        @NotNull(message = "Selecione uma Familia")
-        @Pattern(regexp = " FEM|MASC", message = "Escolha o genero 'FEM', 'MASC' ")
-        String tipo;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    long id;
+    @Setter
+    @NotNull(message = "Selecione uma Familia")
+    @Pattern(regexp = " FEM|MASC", message = "Escolha o genero 'FEM', 'MASC' ")
+    String tipo;
 
     public Genero(GeneroRequestDTO data) {
         this.tipo = data.tipo();

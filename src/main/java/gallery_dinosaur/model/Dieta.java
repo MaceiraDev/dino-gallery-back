@@ -28,4 +28,7 @@ public class Dieta {
     public Dieta(DietaRequestDTO data) {
         this.tipo = data.tipo();
     }
+
+    public void setTipo(String tipo) {
+    }
 }

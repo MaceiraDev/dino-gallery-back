@@ -30,14 +30,14 @@ public class FamiliaController {
         List<FamiliaResponseDTO> familiaList = repository.findAll().stream().map(FamiliaResponseDTO::new).toList();
         return familiaList;
     }
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarFamilia(@Valid @RequestBody FamiliaRequestDTO data) {
         Familia familiaData = new Familia(data);
         repository.save(familiaData);
         return ResponseEntity.status(HttpStatus.CREATED).body(" Familia criado com sucesso!");
     }
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarFamilia(@PathVariable Long id) {
         try {
@@ -54,6 +54,23 @@ public class FamiliaController {
             // Log the exception for debugging purposes
             LOGGER.info("Erro ao deletar a Familia." + id);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar a Familia. Por favor, tente novamente mais tarde.");
+        }
+    }
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<String> atualizarFamilia(@PathVariable Long id, @Valid @RequestBody FamiliaRequestDTO data) {
+        try {
+            Optional<Familia> familiaOptional = repository.findById(id);
+            if (familiaOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Familia não encontrada para o ID: " + id);
+            }
+            Familia familia = familiaOptional.get();
+            familia.setTipo(data.tipo());
+            repository.save(familia);
+            return ResponseEntity.status(HttpStatus.OK).body("Familia do ID: " + id + " atualizada com sucesso!");
+        } catch (Exception e) {
+            LOGGER.severe("Erro ao atualizar a Familia com ID: " + id + ". Erro: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar a Familia. Por favor, tente novamente mais tarde.");
         }
     }
 }

@@ -3,10 +3,7 @@ package gallery_dinosaur.model;
 import gallery_dinosaur.DTO.MetodoLocomocaoRequestDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.Pattern;
 
@@ -20,6 +17,7 @@ public class MetodoLocomocao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Setter
     @NotNull(message = " Selecione um tipo de locomoção")
     @Pattern(regexp = "AEREO|TERRESTRE|AQUATICO", message = "Escolha o tipo de locomoção 'AEREO', 'TERRESTRE' ou 'AQUATICO'")
     private String tipo;

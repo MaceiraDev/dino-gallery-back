@@ -3,10 +3,7 @@ package gallery_dinosaur.model;
 import gallery_dinosaur.DTO.DominioRequestDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.Pattern;
 
@@ -20,6 +17,7 @@ public class Dominio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Setter
     @NotNull(message = "Selecione um Dominio")
     @Pattern(regexp = " |ONIVORO", message = "O tipo de dominio deve ser 'ONIVORO'")
     private String tipo;
@@ -27,6 +25,9 @@ public class Dominio {
     public Dominio(DominioRequestDTO data) {
         this.tipo = data.tipo();
     }
+
+
+
 }
 
 

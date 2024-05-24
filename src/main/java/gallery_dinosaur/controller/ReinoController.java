@@ -32,14 +32,18 @@ public class ReinoController {
         List<ReinoResponseDTO> reinoList = repository.findAll().stream().map(ReinoResponseDTO::new).toList();
         return reinoList;
     }
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarReino(@Valid @RequestBody ReinoRequestDTO data) {
         Reino reinoData = new Reino(data);
         repository.save(reinoData);
         return ResponseEntity.status(HttpStatus.CREATED).body("Reino criada com sucesso!");
     }
-    @DeleteMapping("/deletar{id}")
-    public ResponseEntity<String> deletarReino(@PathVariable Long id){
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity<String> deletarReino(@PathVariable Long id) {
         try {
             if (id == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID não pode ser nulo.");
@@ -50,11 +54,30 @@ public class ReinoController {
             }
             repository.deleteById(id);
             return ResponseEntity.status(HttpStatus.OK).body("Reino do ID: " + id + " deletada com sucesso!");
-        } catch (Exception e){
+        } catch (Exception e) {
             LOGGER.info("Erro ao deletar" + id);
-            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o Reino. Por favor, tente novamente mais tarde.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o Reino. Por favor, tente novamente mais tarde.");
         }
     }
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<String> atualizarPeriodo(@PathVariable Long id, @Valid @RequestBody ReinoRequestDTO data) {
+        try {
+            Optional<Reino> reinoOptional = repository.findById(id);
+            if (reinoOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Reino não encontrada para o ID: " + id);
+            }
+            Reino reino = reinoOptional.get();
+            reino.setTipo(data.tipo());
+            repository.save(reino);
+            return ResponseEntity.status(HttpStatus.OK).body("Reino do ID: " + id + " atualizada com sucesso!");
+        } catch (Exception e) {
+            LOGGER.severe("Erro ao atualizar o Reino com ID: " + id + ". Erro: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar o Reino. Por favor, tente novamente mais tarde.");
+        }
+    }
+
 }
 
 

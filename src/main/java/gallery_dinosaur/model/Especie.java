@@ -2,10 +2,7 @@ package gallery_dinosaur.model;
 
 import gallery_dinosaur.DTO.EspecieRequestDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -22,6 +19,7 @@ public class Especie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    @Setter
     @NotNull(message = "Selecione uma Especie")
     @Pattern(regexp = " |CHORDATA", message = "Escolha o tipo de especie 'CHORDATA', ")
     String tipo;
@@ -31,4 +29,6 @@ public class Especie {
     }
 
 
+    public void setTipo(String tipo) {
+    }
 }
