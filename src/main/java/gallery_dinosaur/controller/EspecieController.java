@@ -33,14 +33,14 @@ public class EspecieController {
         List<EspecieResponseDTO> especieList = repository.findAll().stream().map(EspecieResponseDTO::new).toList();
         return especieList;
     }
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarEspecie(@Valid @RequestBody EspecieRequestDTO data) {
         Especie especieData = new Especie(data);
         repository.save(especieData);
         return ResponseEntity.status(HttpStatus.CREATED).body("Especie criada com sucesso!");
     }
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarEspecie(@PathVariable Long id) {
         try {
@@ -59,6 +59,7 @@ public class EspecieController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar a especie. Por favor, tente novamente mais tarde.");
         }
     }
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarEspecie(@PathVariable Long id, @Valid @RequestBody EspecieRequestDTO data) {
         try {

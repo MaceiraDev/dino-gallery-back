@@ -34,6 +34,7 @@ public class DietaController {
         return dietaList;
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarDieta(@Valid @RequestBody DietaRequestDTO data) {
         Dieta dietaData = new Dieta(data);
@@ -42,6 +43,7 @@ public class DietaController {
 
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarDieta(@PathVariable Long id) {
         try {
@@ -68,7 +70,7 @@ public class DietaController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Dieta não encontrada para o ID: " + id);
             }
             Dieta dieta = dietaOptional.get();
-            dieta.setTipo(data.tipo()); // Atualize o tipo da dieta
+            dieta.setTipo(data.tipo());
             repository.save(dieta);
             return ResponseEntity.status(HttpStatus.OK).body("Dieta do ID: " + id + " atualizada com sucesso!");
         } catch (Exception e) {
