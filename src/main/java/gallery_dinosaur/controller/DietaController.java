@@ -23,7 +23,6 @@ import java.util.logging.Logger;
 @RequestMapping("dieta")
 public class DietaController {
     private static final Logger LOGGER = Logger.getLogger(DietaController.class.getName());
-
     @Autowired
     DietaRepository repository;
 

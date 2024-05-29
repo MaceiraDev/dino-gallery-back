@@ -30,6 +30,7 @@ public class DominioController {
         return dominioList;
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarDominio(@Valid @RequestBody DominioRequestDTO data) {
         Dominio dominioData = new Dominio(data);
@@ -37,7 +38,7 @@ public class DominioController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Dominio criado com sucesso!");
 
     }
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarDominio(@PathVariable Long id) {
         try {
