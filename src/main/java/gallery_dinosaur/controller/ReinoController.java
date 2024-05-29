@@ -1,8 +1,10 @@
 package gallery_dinosaur.controller;
 
 
+import gallery_dinosaur.DTO.PeriodoRequestDTO;
 import gallery_dinosaur.DTO.ReinoRequestDTO;
 import gallery_dinosaur.DTO.ReinoResponseDTO;
+import gallery_dinosaur.model.Periodo;
 import gallery_dinosaur.model.Reino;
 import gallery_dinosaur.repository.ReinoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,6 @@ public class ReinoController {
         List<ReinoResponseDTO> reinoList = repository.findAll().stream().map(ReinoResponseDTO::new).toList();
         return reinoList;
     }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
 
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarReino(@Valid @RequestBody ReinoRequestDTO data) {
@@ -40,7 +41,6 @@ public class ReinoController {
         repository.save(reinoData);
         return ResponseEntity.status(HttpStatus.CREATED).body("Reino criada com sucesso!");
     }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
 
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarReino(@PathVariable Long id) {
@@ -59,7 +59,6 @@ public class ReinoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o Reino. Por favor, tente novamente mais tarde.");
         }
     }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
 
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarPeriodo(@PathVariable Long id, @Valid @RequestBody ReinoRequestDTO data) {

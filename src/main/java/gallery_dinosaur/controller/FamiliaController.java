@@ -20,10 +20,8 @@ import java.util.logging.Logger;
 @RequestMapping("familia")
 public class FamiliaController {
     private static final Logger LOGGER = Logger.getLogger(FamiliaController.class.getName());
-
     @Autowired
     FamiliaRepository repository;
-
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public List<FamiliaResponseDTO> geAll() {
@@ -37,6 +35,7 @@ public class FamiliaController {
         repository.save(familiaData);
         return ResponseEntity.status(HttpStatus.CREATED).body(" Familia criado com sucesso!");
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarFamilia(@PathVariable Long id) {

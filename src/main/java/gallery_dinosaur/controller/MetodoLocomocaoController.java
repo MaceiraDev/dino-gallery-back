@@ -1,7 +1,9 @@
 package gallery_dinosaur.controller;
 
+import gallery_dinosaur.DTO.FiloRequestDTO;
 import gallery_dinosaur.DTO.MetodoLocomocaoRequestDTO;
 import gallery_dinosaur.DTO.MetodoLocomocaoResponseDTO;
+import gallery_dinosaur.model.Filo;
 import gallery_dinosaur.model.MetodoLocomocao;
 import gallery_dinosaur.repository.MetodoLocomocaoRespository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,6 @@ public class MetodoLocomocaoController {
         List<MetodoLocomocaoResponseDTO> metodolocomocaoList = repository.findAll().stream().map(MetodoLocomocaoResponseDTO::new).toList();
         return metodolocomocaoList;
     }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
 
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarMetodoLocomocao(@Valid @RequestBody MetodoLocomocaoRequestDTO data) {
@@ -39,8 +40,6 @@ public class MetodoLocomocaoController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Metodo de Locomoção criada com sucesso!");
 
     }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-
     @DeleteMapping("/deletar/{id}")
      public ResponseEntity<String> deletarMetodoLocomocao(@PathVariable Long id){
         try {
@@ -58,8 +57,6 @@ public class MetodoLocomocaoController {
             return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o Metodo de Locomoção. Por favor, tente novamente mais tarde.");
         }
      }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarMetodoLocomocao(@PathVariable Long id, @Valid @RequestBody MetodoLocomocaoRequestDTO data) {
         try {

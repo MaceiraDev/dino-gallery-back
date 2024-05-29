@@ -2,6 +2,7 @@ package gallery_dinosaur.controller;
 
 import gallery_dinosaur.DTO.DominioRequestDTO;
 import gallery_dinosaur.DTO.DominioResponseDTO;
+import gallery_dinosaur.model.Dieta;
 import gallery_dinosaur.model.Dominio;
 import gallery_dinosaur.repository.DominioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class DominioController {
         List<DominioResponseDTO> dominioList = repository.findAll().stream().map(DominioResponseDTO::new).toList();
         return dominioList;
     }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarDominio(@Valid @RequestBody DominioRequestDTO data) {
         Dominio dominioData = new Dominio(data);
@@ -37,7 +38,7 @@ public class DominioController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Dominio criado com sucesso!");
 
     }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarDominio(@PathVariable Long id) {
         try {
@@ -52,24 +53,8 @@ public class DominioController {
             return ResponseEntity.status(HttpStatus.OK).body("Dominio do ID: " + id + " deletada com sucesso!");
         } catch (Exception e) {
             LOGGER.info("Erro ao deletar o Dominio." + id);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar a Dominio. Por favor, tente novamente mais tarde.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar a Dieta. Por favor, tente novamente mais tarde.");
         }
     }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PutMapping("/atualizar/{id}")
-    public ResponseEntity<String> atualizarDominio(@PathVariable Long id, @Valid @RequestBody DominioRequestDTO data) {
-        try {
-            Optional<Dominio> dominioOptional = repository.findById(id);
-            if (dominioOptional.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Dominio não encontrada para o ID: " + id);
-            }
-            Dominio dominio = dominioOptional.get();
-            dominio.setTipo(data.tipo()); // Atualize o tipo da dominio
-            repository.save(dominio);
-            return ResponseEntity.status(HttpStatus.OK).body("Dominio do ID: " + id + " atualizada com sucesso!");
-        } catch (Exception e) {
-            LOGGER.severe("Erro ao atualizar a Dieta com ID: " + id + ". Erro: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar o Dominio. Por favor, tente novamente mais tarde.");
-        }
-    }
+
 }
