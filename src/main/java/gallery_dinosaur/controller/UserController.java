@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +32,7 @@ public class UserController {
         List<UserResponseDTO> userList = repository.findAll().stream().map(UserResponseDTO::new).toList();
         return userList;
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
 
     @PostMapping("/salvar")
@@ -39,10 +41,11 @@ public class UserController {
         repository.save(userData);
         return ResponseEntity.status(HttpStatus.CREATED).body("User criado com sucesso!");
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
 
     @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<String> deletarUser(@PathVariable Long id){
+    public ResponseEntity<String> deletarUser(@PathVariable Long id) {
         try {
             if (id == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID não pode ser nulo.");
@@ -53,11 +56,12 @@ public class UserController {
             }
             repository.deleteById(id);
             return ResponseEntity.status(HttpStatus.OK).body("User do ID: " + id + " deletado com sucesso!");
-        } catch (Exception e){
+        } catch (Exception e) {
             LOGGER.info("Erro ao deletar" + id);
-            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o User. Por favor, tente novamente mais tarde.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o User. Por favor, tente novamente mais tarde.");
         }
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
 
     @PutMapping("/atualizar/{id}")

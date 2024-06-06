@@ -21,7 +21,6 @@ public class Especie {
     Long id;
     @Setter
     @NotNull(message = "Selecione uma Especie")
-    @Pattern(regexp = " |CHORDATA", message = "Escolha o tipo de especie 'CHORDATA', ")
     String tipo;
 
     public Especie(EspecieRequestDTO data) {

@@ -1,6 +1,5 @@
 package gallery_dinosaur.model;
 
-
 import gallery_dinosaur.DTO.UserRequestDTO;
 import jakarta.persistence.*;
 import lombok.*;

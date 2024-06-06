@@ -20,7 +20,6 @@ public class Clado {
     private Long id;
     @Setter
     @NotNull(message = "O tipo de clado não pode ser nulo")
-    @Pattern(regexp = " |DINOSSAURIA", message = "Escolha o tipo de clado  'DINOSSAURIA' ")
     private String tipo;
 
     public Clado(CladoRequestDTO data) {

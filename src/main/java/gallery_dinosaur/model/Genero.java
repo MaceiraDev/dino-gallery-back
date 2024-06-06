@@ -21,8 +21,7 @@ public class Genero {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     @Setter
-    @NotNull(message = "Selecione uma Familia")
-    @Pattern(regexp = " FEM|MASC", message = "Escolha o genero 'FEM', 'MASC' ")
+    @NotNull(message = "Selecione um genero")
     String tipo;
 
     public Genero(GeneroRequestDTO data) {

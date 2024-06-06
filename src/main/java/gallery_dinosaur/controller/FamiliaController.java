@@ -22,12 +22,14 @@ public class FamiliaController {
     private static final Logger LOGGER = Logger.getLogger(FamiliaController.class.getName());
     @Autowired
     FamiliaRepository repository;
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public List<FamiliaResponseDTO> geAll() {
         List<FamiliaResponseDTO> familiaList = repository.findAll().stream().map(FamiliaResponseDTO::new).toList();
         return familiaList;
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarFamilia(@Valid @RequestBody FamiliaRequestDTO data) {
@@ -55,6 +57,7 @@ public class FamiliaController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar a Familia. Por favor, tente novamente mais tarde.");
         }
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarFamilia(@PathVariable Long id, @Valid @RequestBody FamiliaRequestDTO data) {

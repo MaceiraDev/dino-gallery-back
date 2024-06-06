@@ -4,8 +4,8 @@ package gallery_dinosaur.controller;
 import gallery_dinosaur.DTO.DietaRequestDTO;
 import gallery_dinosaur.DTO.DietaResponseDTO;
 import gallery_dinosaur.model.Dieta;
-import gallery_dinosaur.model.Especie;
 import gallery_dinosaur.repository.DietaRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +31,15 @@ public class DietaController {
     public List<DietaResponseDTO> geAll() {
         List<DietaResponseDTO> dietaList = repository.findAll().stream().map(DietaResponseDTO::new).toList();
         return dietaList;
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/buscar/{id}")
+    public ResponseEntity<DietaResponseDTO> getById(@PathVariable Long id) {
+        DietaResponseDTO dieta = repository.findById(id)
+                .map(DietaResponseDTO::new)
+                .orElseThrow(() -> new EntityNotFoundException("Clado não encontrado neste ID: " + id));
+        return ResponseEntity.ok(dieta);
     }
 
     @PostMapping("/salvar")

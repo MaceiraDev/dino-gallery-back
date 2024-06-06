@@ -55,6 +55,7 @@ public class FiloController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o Filo. Por favor, tente novamente mais tarde.");
         }
     }
+
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarFilo(@PathVariable Long id, @Valid @RequestBody FiloRequestDTO data) {
         try {

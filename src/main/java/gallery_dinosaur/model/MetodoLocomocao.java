@@ -19,7 +19,6 @@ public class MetodoLocomocao {
     private Long id;
     @Setter
     @NotNull(message = " Selecione um tipo de locomoção")
-    @Pattern(regexp = "AEREO|TERRESTRE|AQUATICO", message = "Escolha o tipo de locomoção 'AEREO', 'TERRESTRE' ou 'AQUATICO'")
     private String tipo;
 
     public MetodoLocomocao(MetodoLocomocaoRequestDTO data) {

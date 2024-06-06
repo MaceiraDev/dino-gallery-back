@@ -1,7 +1,6 @@
 package gallery_dinosaur.controller;
 
 
-
 import gallery_dinosaur.DTO.EspecieRequestDTO;
 import gallery_dinosaur.DTO.EspecieResponseDTO;
 import gallery_dinosaur.model.Especie;
@@ -33,6 +32,7 @@ public class EspecieController {
         List<EspecieResponseDTO> especieList = repository.findAll().stream().map(EspecieResponseDTO::new).toList();
         return especieList;
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarEspecie(@Valid @RequestBody EspecieRequestDTO data) {
@@ -40,6 +40,7 @@ public class EspecieController {
         repository.save(especieData);
         return ResponseEntity.status(HttpStatus.CREATED).body("Especie criada com sucesso!");
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarEspecie(@PathVariable Long id) {
@@ -59,6 +60,7 @@ public class EspecieController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar a especie. Por favor, tente novamente mais tarde.");
         }
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarEspecie(@PathVariable Long id, @Valid @RequestBody EspecieRequestDTO data) {
@@ -67,7 +69,7 @@ public class EspecieController {
             if (especieOptional.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Especie não encontrada para o ID: " + id);
             }
-            Especie especie= especieOptional.get();
+            Especie especie = especieOptional.get();
             especie.setTipo(data.tipo());
             repository.save(especie);
             return ResponseEntity.status(HttpStatus.OK).body("Especie do ID: " + id + " atualizada com sucesso!");

@@ -20,7 +20,6 @@ public class Periodo {
     private Long id;
     @Setter
     @NotNull(message = "Escolha um periodo")
-    @Pattern(regexp = "CRETACEO|TRIASSICO|JURASSICO", message = "O tipo de periodo deve ser 'CRETACEO', 'TRIASSICO' ou 'JURASSICO'")
     private String dataPeriodo;
     private String tipo;
 

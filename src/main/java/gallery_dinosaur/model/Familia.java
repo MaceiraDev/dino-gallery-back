@@ -19,7 +19,6 @@ public class Familia {
     private Long id;
     @Setter
     @NotNull(message = "Selecione uma Familia")
-    @Pattern(regexp = " |CHORDATA", message = "Escolha o tipo de familia 'CHORDATA', ")
     private String tipo;
 
     public Familia(FamiliaRequestDTO data) {

@@ -19,7 +19,6 @@ public class Dominio {
     private Long id;
     @Setter
     @NotNull(message = "Selecione um Dominio")
-    @Pattern(regexp = " |ONIVORO", message = "O tipo de dominio deve ser 'ONIVORO'")
     private String tipo;
 
     public Dominio(DominioRequestDTO data) {

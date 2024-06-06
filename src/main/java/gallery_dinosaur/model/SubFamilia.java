@@ -20,7 +20,6 @@ public class SubFamilia {
     private Long id;
     @Setter
     @NotNull(message = "Selecione uma SubFamilia")
-    @Pattern(regexp = " |CHORDATA", message = "Escolha o tipo de SubFamilia 'CHORDATA', ")
     private String tipo;
 
     public SubFamilia(SubFamiliaRequestDTO data) {

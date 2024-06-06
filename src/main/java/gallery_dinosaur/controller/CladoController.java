@@ -5,7 +5,7 @@ import gallery_dinosaur.DTO.CladoRequestDTO;
 import gallery_dinosaur.DTO.CladoResponseDTO;
 import gallery_dinosaur.model.Clado;
 import gallery_dinosaur.repository.CladoRepository;
-import gallery_dinosaur.repository.CladoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,6 +32,16 @@ public class CladoController {
     public List<CladoResponseDTO> geAll() {
         List<CladoResponseDTO> cladoList = repository.findAll().stream().map(CladoResponseDTO::new).toList();
         return cladoList;
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+
+    @GetMapping("/buscar/{id}")
+     public ResponseEntity<CladoResponseDTO> getById(@PathVariable Long id) {
+        CladoResponseDTO clado = repository.findById(id)
+                .map(CladoResponseDTO::new)
+                .orElseThrow(() -> new EntityNotFoundException("Clado não encontrado neste ID: " + id));
+        return ResponseEntity.ok(clado);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")

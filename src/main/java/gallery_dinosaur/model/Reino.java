@@ -19,7 +19,6 @@ public class Reino {
     private Long id;
     @Setter
     @NotNull(message = "Escolha um Reino")
-    @Pattern(regexp = "CRETACEO|TRIASSICO|JURASSICO", message = "O tipo de periodo deve ser 'CRETACEO', 'TRIASSICO' ou 'JURASSICO'")
     private String tipo;
     private String dataReino;
 

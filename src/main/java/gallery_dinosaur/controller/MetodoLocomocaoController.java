@@ -40,8 +40,9 @@ public class MetodoLocomocaoController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Metodo de Locomoção criada com sucesso!");
 
     }
+
     @DeleteMapping("/deletar/{id}")
-     public ResponseEntity<String> deletarMetodoLocomocao(@PathVariable Long id){
+    public ResponseEntity<String> deletarMetodoLocomocao(@PathVariable Long id) {
         try {
             if (id == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID não pode ser nulo.");
@@ -52,11 +53,12 @@ public class MetodoLocomocaoController {
             }
             repository.deleteById(id);
             return ResponseEntity.status(HttpStatus.OK).body("Metodo de Locomoção do ID: " + id + " deletada com sucesso!");
-        } catch (Exception e){
+        } catch (Exception e) {
             LOGGER.info("Erro ao deletar" + id);
-            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o Metodo de Locomoção. Por favor, tente novamente mais tarde.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o Metodo de Locomoção. Por favor, tente novamente mais tarde.");
         }
-     }
+    }
+
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarMetodoLocomocao(@PathVariable Long id, @Valid @RequestBody MetodoLocomocaoRequestDTO data) {
         try {

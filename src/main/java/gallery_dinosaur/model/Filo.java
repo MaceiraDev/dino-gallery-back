@@ -18,8 +18,7 @@ public class Filo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter
     private Long id;
-    @NotNull(message = "O tipo de dieta não pode ser nulo")
-    @Pattern(regexp = "HERBIVORO|CARNIVORO|ONIVORO", message = "O tipo de dieta deve ser 'HERBIVORO', 'CARNIVORO' ou 'ONIVORO'")
+    @NotNull(message = "O tipo de filo não pode ser nulo")
     private String tipo;
 
     public Filo(FiloRequestDTO data) {

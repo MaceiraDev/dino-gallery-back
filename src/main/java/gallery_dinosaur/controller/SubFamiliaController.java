@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +33,7 @@ public class SubFamiliaController {
         List<SubFamiliaResponseDTO> subfamiliaList = repository.findAll().stream().map(SubFamiliaResponseDTO::new).toList();
         return subfamiliaList;
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarSubFamilia(@Valid @RequestBody SubFamiliaRequestDTO data) {
@@ -39,9 +41,10 @@ public class SubFamiliaController {
         repository.save(subfamiliaData);
         return ResponseEntity.status(HttpStatus.CREATED).body("SubFamilia criada com sucesso!");
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<String> deletarSubFamilia(@PathVariable Long id){
+    public ResponseEntity<String> deletarSubFamilia(@PathVariable Long id) {
         try {
             if (id == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID não pode ser nulo.");
@@ -52,11 +55,12 @@ public class SubFamiliaController {
             }
             repository.deleteById(id);
             return ResponseEntity.status(HttpStatus.OK).body("SubFamilia do ID: " + id + " deletada com sucesso!");
-        } catch (Exception e){
+        } catch (Exception e) {
             LOGGER.info("Erro ao deletar" + id);
-            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o SubFamilia. Por favor, tente novamente mais tarde.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o SubFamilia. Por favor, tente novamente mais tarde.");
         }
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarSubFamilia(@PathVariable Long id, @Valid @RequestBody SubFamiliaRequestDTO data) {
