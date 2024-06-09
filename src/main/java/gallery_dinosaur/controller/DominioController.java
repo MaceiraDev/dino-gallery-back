@@ -2,9 +2,13 @@ package gallery_dinosaur.controller;
 
 import gallery_dinosaur.DTO.DominioRequestDTO;
 import gallery_dinosaur.DTO.DominioResponseDTO;
+import gallery_dinosaur.DTO.EspecieRequestDTO;
+import gallery_dinosaur.DTO.EspecieResponseDTO;
 import gallery_dinosaur.model.Dieta;
 import gallery_dinosaur.model.Dominio;
+import gallery_dinosaur.model.Especie;
 import gallery_dinosaur.repository.DominioRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +35,15 @@ public class DominioController {
         return dominioList;
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/{id}")
+    public ResponseEntity<DominioResponseDTO> getById(@PathVariable Long id) {
+        DominioResponseDTO dieta = repository.findById(id)
+                .map(DominioResponseDTO::new)
+                .orElseThrow(() -> new EntityNotFoundException("Dominio não encontrada neste ID: " + id));
+        return ResponseEntity.ok(dieta);
+    }
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarDominio(@Valid @RequestBody DominioRequestDTO data) {
         Dominio dominioData = new Dominio(data);
@@ -38,7 +51,24 @@ public class DominioController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Dominio criado com sucesso!");
 
     }
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<String> atualizarDominio(@PathVariable Long id, @Valid @RequestBody DominioRequestDTO data) {
+        try {
+            Optional<Dominio> dominioOptional = repository.findById(id);
+            if (dominioOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Dominio não encontrada para o ID: " + id);
+            }
+            Dominio dominio = dominioOptional.get();
+            dominio.setTipo(data.tipo());
+            repository.save(dominio);
+            return ResponseEntity.status(HttpStatus.OK).body("Dominio do ID: " + id + " atualizada com sucesso!");
+        } catch (Exception e) {
+            LOGGER.severe("Erro ao atualizar o Dominio com ID: " + id + ". Erro: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar o Dominio.");
+        }
+    }
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarDominio(@PathVariable Long id) {
         try {
