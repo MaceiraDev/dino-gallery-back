@@ -3,7 +3,9 @@ package gallery_dinosaur.controller;
 
 import gallery_dinosaur.DTO.DietaRequestDTO;
 import gallery_dinosaur.DTO.DietaResponseDTO;
+import gallery_dinosaur.DTO.PeriodoRequestDTO;
 import gallery_dinosaur.model.Dieta;
+import gallery_dinosaur.model.Periodo;
 import gallery_dinosaur.repository.DietaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,14 +36,14 @@ public class DietaController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/buscar/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<DietaResponseDTO> getById(@PathVariable Long id) {
         DietaResponseDTO dieta = repository.findById(id)
                 .map(DietaResponseDTO::new)
-                .orElseThrow(() -> new EntityNotFoundException("Clado não encontrado neste ID: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Dieta não encontrada neste ID: " + id));
         return ResponseEntity.ok(dieta);
     }
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarDieta(@Valid @RequestBody DietaRequestDTO data) {
         Dieta dietaData = new Dieta(data);
@@ -49,7 +51,24 @@ public class DietaController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Dieta criada com sucesso!");
 
     }
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<String> atualizarDieta(@PathVariable Long id, @Valid @RequestBody DietaRequestDTO data) {
+        try {
+            Optional<Dieta> dietaOptional = repository.findById(id);
+            if (dietaOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Dieta não encontrada para o ID: " + id);
+            }
+            Dieta dieta = dietaOptional.get();
+            dieta.setTipo(data.tipo());
+            repository.save(dieta);
+            return ResponseEntity.status(HttpStatus.OK).body("Dieta do ID: " + id + " atualizada com sucesso!");
+        } catch (Exception e) {
+            LOGGER.severe("Erro ao atualizar o Dieta com ID: " + id + ". Erro: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar o Dieta.");
+        }
+    }
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarDieta(@PathVariable Long id) {
         try {
