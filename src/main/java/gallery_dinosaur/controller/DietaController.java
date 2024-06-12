@@ -36,13 +36,14 @@ public class DietaController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/{id}")
+    @GetMapping("/buscar/{id}")
     public ResponseEntity<DietaResponseDTO> getById(@PathVariable Long id) {
         DietaResponseDTO dieta = repository.findById(id)
                 .map(DietaResponseDTO::new)
                 .orElseThrow(() -> new EntityNotFoundException("Dieta não encontrada neste ID: " + id));
         return ResponseEntity.ok(dieta);
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarDieta(@Valid @RequestBody DietaRequestDTO data) {
@@ -51,6 +52,7 @@ public class DietaController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Dieta criada com sucesso!");
 
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarDieta(@PathVariable Long id, @Valid @RequestBody DietaRequestDTO data) {
@@ -68,6 +70,7 @@ public class DietaController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar o Dieta.");
         }
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarDieta(@PathVariable Long id) {

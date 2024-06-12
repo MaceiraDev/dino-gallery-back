@@ -36,7 +36,7 @@ public class CladoController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/buscar/{id}")
-     public ResponseEntity<CladoResponseDTO> getById(@PathVariable Long id) {
+    public ResponseEntity<CladoResponseDTO> getById(@PathVariable Long id) {
         CladoResponseDTO clado = repository.findById(id)
                 .map(CladoResponseDTO::new)
                 .orElseThrow(() -> new EntityNotFoundException("Clado não encontrado neste ID: " + id));
@@ -51,6 +51,7 @@ public class CladoController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Clado criado com sucesso!");
 
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarClado(@PathVariable Long id) {
@@ -70,6 +71,7 @@ public class CladoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o Clado. Por favor, tente novamente mais tarde.");
         }
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarClado(@PathVariable Long id, @Valid @RequestBody CladoRequestDTO data) {

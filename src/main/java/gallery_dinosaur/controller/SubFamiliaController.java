@@ -1,11 +1,13 @@
 package gallery_dinosaur.controller;
 
 import gallery_dinosaur.DTO.ReinoRequestDTO;
+import gallery_dinosaur.DTO.ReinoResponseDTO;
 import gallery_dinosaur.DTO.SubFamiliaRequestDTO;
 import gallery_dinosaur.DTO.SubFamiliaResponseDTO;
 import gallery_dinosaur.model.Reino;
 import gallery_dinosaur.model.SubFamilia;
 import gallery_dinosaur.repository.SubFamiliaRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,15 @@ public class SubFamiliaController {
     public List<SubFamiliaResponseDTO> getAll() {
         List<SubFamiliaResponseDTO> subfamiliaList = repository.findAll().stream().map(SubFamiliaResponseDTO::new).toList();
         return subfamiliaList;
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/buscar/{id}")
+    public ResponseEntity<SubFamiliaResponseDTO> getById(@PathVariable Long id) {
+        SubFamiliaResponseDTO subFamilia = repository.findById(id)
+                .map(SubFamiliaResponseDTO::new)
+                .orElseThrow(() -> new EntityNotFoundException("Sub-Familia não encontrada neste ID: " + id));
+        return ResponseEntity.ok(subFamilia);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")

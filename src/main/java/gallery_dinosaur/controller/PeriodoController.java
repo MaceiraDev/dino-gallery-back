@@ -1,10 +1,12 @@
 package gallery_dinosaur.controller;
 
 
+import gallery_dinosaur.DTO.MetodoLocomocaoResponseDTO;
 import gallery_dinosaur.DTO.PeriodoRequestDTO;
 import gallery_dinosaur.DTO.PeriodoResponseDTO;
 import gallery_dinosaur.model.Periodo;
 import gallery_dinosaur.repository.PeriodoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,15 @@ public class PeriodoController {
     public List<PeriodoResponseDTO> geAll() {
         List<PeriodoResponseDTO> periodoList = repository.findAll().stream().map(PeriodoResponseDTO::new).toList();
         return periodoList;
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/buscar/{id}")
+    public ResponseEntity<PeriodoResponseDTO> getById(@PathVariable Long id) {
+        PeriodoResponseDTO periodo = repository.findById(id)
+                .map(PeriodoResponseDTO::new)
+                .orElseThrow(() -> new EntityNotFoundException("Periodo não encontrada neste ID: " + id));
+        return ResponseEntity.ok(periodo);
     }
 
     @PostMapping("/salvar")

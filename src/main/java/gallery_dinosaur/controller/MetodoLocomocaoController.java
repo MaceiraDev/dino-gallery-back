@@ -1,11 +1,13 @@
 package gallery_dinosaur.controller;
 
 import gallery_dinosaur.DTO.FiloRequestDTO;
+import gallery_dinosaur.DTO.GeneroResponseDTO;
 import gallery_dinosaur.DTO.MetodoLocomocaoRequestDTO;
 import gallery_dinosaur.DTO.MetodoLocomocaoResponseDTO;
 import gallery_dinosaur.model.Filo;
 import gallery_dinosaur.model.MetodoLocomocao;
 import gallery_dinosaur.repository.MetodoLocomocaoRespository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,15 @@ public class MetodoLocomocaoController {
     public List<MetodoLocomocaoResponseDTO> geAll() {
         List<MetodoLocomocaoResponseDTO> metodolocomocaoList = repository.findAll().stream().map(MetodoLocomocaoResponseDTO::new).toList();
         return metodolocomocaoList;
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/buscar/{id}")
+    public ResponseEntity<MetodoLocomocaoResponseDTO> getById(@PathVariable Long id) {
+        MetodoLocomocaoResponseDTO metodoLocomocao = repository.findById(id)
+                .map(MetodoLocomocaoResponseDTO::new)
+                .orElseThrow(() -> new EntityNotFoundException("Mtodo de locomoção não encontrada neste ID: " + id));
+        return ResponseEntity.ok(metodoLocomocao);
     }
 
     @PostMapping("/salvar")

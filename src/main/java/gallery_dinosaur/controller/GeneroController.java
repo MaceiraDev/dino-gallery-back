@@ -1,9 +1,11 @@
 package gallery_dinosaur.controller;
 
+import gallery_dinosaur.DTO.FiloResponseDTO;
 import gallery_dinosaur.DTO.GeneroRequestDTO;
 import gallery_dinosaur.DTO.GeneroResponseDTO;
 import gallery_dinosaur.model.Genero;
 import gallery_dinosaur.repository.GeneroRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,13 @@ public class GeneroController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/buscar/{id}")
+    public ResponseEntity<GeneroResponseDTO> getById(@PathVariable Long id) {
+        GeneroResponseDTO genero = repository.findById(id)
+                .map(GeneroResponseDTO::new)
+                .orElseThrow(() -> new EntityNotFoundException("Genero não encontrada neste ID: " + id));
+        return ResponseEntity.ok(genero);
+    }
 
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarGenero(@Valid @RequestBody GeneroRequestDTO data) {

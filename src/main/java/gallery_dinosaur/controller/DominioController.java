@@ -36,13 +36,14 @@ public class DominioController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/{id}")
+    @GetMapping("/buscar/{id}")
     public ResponseEntity<DominioResponseDTO> getById(@PathVariable Long id) {
         DominioResponseDTO dieta = repository.findById(id)
                 .map(DominioResponseDTO::new)
                 .orElseThrow(() -> new EntityNotFoundException("Dominio não encontrada neste ID: " + id));
         return ResponseEntity.ok(dieta);
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarDominio(@Valid @RequestBody DominioRequestDTO data) {
@@ -51,6 +52,7 @@ public class DominioController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Dominio criado com sucesso!");
 
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarDominio(@PathVariable Long id, @Valid @RequestBody DominioRequestDTO data) {
@@ -68,6 +70,7 @@ public class DominioController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar o Dominio.");
         }
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarDominio(@PathVariable Long id) {

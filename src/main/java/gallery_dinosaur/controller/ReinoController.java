@@ -1,10 +1,12 @@
 package gallery_dinosaur.controller;
 
 
+
 import gallery_dinosaur.DTO.ReinoRequestDTO;
 import gallery_dinosaur.DTO.ReinoResponseDTO;
 import gallery_dinosaur.model.Reino;
 import gallery_dinosaur.repository.ReinoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,16 @@ public class ReinoController {
     public List<ReinoResponseDTO> geAll() {
         List<ReinoResponseDTO> reinoList = repository.findAll().stream().map(ReinoResponseDTO::new).toList();
         return reinoList;
+    }
+
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/buscar/{id}")
+    public ResponseEntity<ReinoResponseDTO> getById(@PathVariable Long id) {
+        ReinoResponseDTO reino = repository.findById(id)
+                .map(ReinoResponseDTO::new)
+                .orElseThrow(() -> new EntityNotFoundException("Reino não encontrada neste ID: " + id));
+        return ResponseEntity.ok(reino);
     }
 
     @PostMapping("/salvar")

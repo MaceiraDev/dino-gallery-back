@@ -1,9 +1,11 @@
 package gallery_dinosaur.controller;
 
+import gallery_dinosaur.DTO.SubFamiliaResponseDTO;
 import gallery_dinosaur.DTO.UserRequestDTO;
 import gallery_dinosaur.DTO.UserResponseDTO;
 import gallery_dinosaur.model.User;
 import gallery_dinosaur.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,14 @@ public class UserController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
+
+    @GetMapping("/buscar/{id}")
+    public ResponseEntity<UserResponseDTO> getById(@PathVariable Long id) {
+        UserResponseDTO user = repository.findById(id)
+                .map(UserResponseDTO::new)
+                .orElseThrow(() -> new EntityNotFoundException("User não encontrada neste ID: " + id));
+        return ResponseEntity.ok(user);
+    }
 
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarUser(@Valid @RequestBody UserRequestDTO data) {

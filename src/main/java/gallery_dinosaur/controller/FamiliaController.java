@@ -1,9 +1,11 @@
 package gallery_dinosaur.controller;
 
+
 import gallery_dinosaur.DTO.FamiliaRequestDTO;
 import gallery_dinosaur.DTO.FamiliaResponseDTO;
 import gallery_dinosaur.model.Familia;
 import gallery_dinosaur.repository.FamiliaRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,15 @@ public class FamiliaController {
     public List<FamiliaResponseDTO> geAll() {
         List<FamiliaResponseDTO> familiaList = repository.findAll().stream().map(FamiliaResponseDTO::new).toList();
         return familiaList;
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/buscar/{id}")
+    public ResponseEntity<FamiliaResponseDTO> getById(@PathVariable Long id) {
+        FamiliaResponseDTO familia = repository.findById(id)
+                .map(FamiliaResponseDTO::new)
+                .orElseThrow(() -> new EntityNotFoundException("Familia não encontrada neste ID: " + id));
+        return ResponseEntity.ok(familia);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")

@@ -38,7 +38,7 @@ public class EspecieController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/{id}")
+    @GetMapping("/buscar/{id}")
     public ResponseEntity<EspecieResponseDTO> getById(@PathVariable Long id) {
         EspecieResponseDTO dieta = repository.findById(id)
                 .map(EspecieResponseDTO::new)

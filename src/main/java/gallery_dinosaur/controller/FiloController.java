@@ -1,9 +1,11 @@
 package gallery_dinosaur.controller;
 
+
 import gallery_dinosaur.DTO.FiloRequestDTO;
 import gallery_dinosaur.DTO.FiloResponseDTO;
 import gallery_dinosaur.model.Filo;
 import gallery_dinosaur.repository.FiloRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,15 @@ public class FiloController {
     public List<FiloResponseDTO> geAll() {
         List<FiloResponseDTO> filoList = repository.findAll().stream().map(FiloResponseDTO::new).toList();
         return filoList;
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/buscar/{id}")
+    public ResponseEntity<FiloResponseDTO> getById(@PathVariable Long id) {
+        FiloResponseDTO filo = repository.findById(id)
+                .map(FiloResponseDTO::new)
+                .orElseThrow(() -> new EntityNotFoundException("Filo não encontrada neste ID: " + id));
+        return ResponseEntity.ok(filo);
     }
 
     @PostMapping("/salvar")

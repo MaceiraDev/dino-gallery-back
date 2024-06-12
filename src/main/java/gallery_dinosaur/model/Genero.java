@@ -19,10 +19,10 @@ import javax.validation.constraints.Pattern;
 public class Genero {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    private Long id;
     @Setter
     @NotNull(message = "Selecione um genero")
-    String tipo;
+    private String tipo;
 
     public Genero(GeneroRequestDTO data) {
         this.tipo = data.tipo();
