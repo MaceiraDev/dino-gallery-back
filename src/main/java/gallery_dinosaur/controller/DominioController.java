@@ -2,11 +2,7 @@ package gallery_dinosaur.controller;
 
 import gallery_dinosaur.DTO.DominioRequestDTO;
 import gallery_dinosaur.DTO.DominioResponseDTO;
-import gallery_dinosaur.DTO.EspecieRequestDTO;
-import gallery_dinosaur.DTO.EspecieResponseDTO;
-import gallery_dinosaur.model.Dieta;
 import gallery_dinosaur.model.Dominio;
-import gallery_dinosaur.model.Especie;
 import gallery_dinosaur.repository.DominioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

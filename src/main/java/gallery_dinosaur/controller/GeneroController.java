@@ -1,6 +1,5 @@
 package gallery_dinosaur.controller;
 
-import gallery_dinosaur.DTO.FiloResponseDTO;
 import gallery_dinosaur.DTO.GeneroRequestDTO;
 import gallery_dinosaur.DTO.GeneroResponseDTO;
 import gallery_dinosaur.model.Genero;

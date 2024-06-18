@@ -1,7 +1,6 @@
 package gallery_dinosaur.controller;
 
 
-import gallery_dinosaur.DTO.MetodoLocomocaoResponseDTO;
 import gallery_dinosaur.DTO.PeriodoRequestDTO;
 import gallery_dinosaur.DTO.PeriodoResponseDTO;
 import gallery_dinosaur.model.Periodo;

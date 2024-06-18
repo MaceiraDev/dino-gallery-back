@@ -1,10 +1,8 @@
 package gallery_dinosaur.controller;
 
-import gallery_dinosaur.DTO.FiloRequestDTO;
-import gallery_dinosaur.DTO.GeneroResponseDTO;
+
 import gallery_dinosaur.DTO.MetodoLocomocaoRequestDTO;
 import gallery_dinosaur.DTO.MetodoLocomocaoResponseDTO;
-import gallery_dinosaur.model.Filo;
 import gallery_dinosaur.model.MetodoLocomocao;
 import gallery_dinosaur.repository.MetodoLocomocaoRespository;
 import jakarta.persistence.EntityNotFoundException;

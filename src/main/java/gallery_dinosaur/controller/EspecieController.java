@@ -1,11 +1,7 @@
 package gallery_dinosaur.controller;
 
-
-import gallery_dinosaur.DTO.DietaRequestDTO;
-import gallery_dinosaur.DTO.DietaResponseDTO;
 import gallery_dinosaur.DTO.EspecieRequestDTO;
 import gallery_dinosaur.DTO.EspecieResponseDTO;
-import gallery_dinosaur.model.Dieta;
 import gallery_dinosaur.model.Especie;
 import gallery_dinosaur.repository.EspecieRepository;
 import jakarta.persistence.EntityNotFoundException;

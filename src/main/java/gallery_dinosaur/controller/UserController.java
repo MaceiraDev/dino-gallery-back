@@ -1,6 +1,6 @@
 package gallery_dinosaur.controller;
 
-import gallery_dinosaur.DTO.SubFamiliaResponseDTO;
+
 import gallery_dinosaur.DTO.UserRequestDTO;
 import gallery_dinosaur.DTO.UserResponseDTO;
 import gallery_dinosaur.model.User;

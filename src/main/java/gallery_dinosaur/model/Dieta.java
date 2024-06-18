@@ -19,7 +19,6 @@ public class Dieta {
     private Long id;
     @Setter
     @NotNull(message = "O tipo de dieta não pode ser nulo")
-    @Pattern(regexp = "HERBIVORO|CARNIVORO|ONIVORO", message = "O tipo de dieta deve ser 'HERBIVORO', 'CARNIVORO' ou 'ONIVORO'")
     private String tipo;
 
 

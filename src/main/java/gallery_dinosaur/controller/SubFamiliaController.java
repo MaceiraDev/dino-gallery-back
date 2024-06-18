@@ -1,10 +1,8 @@
 package gallery_dinosaur.controller;
 
-import gallery_dinosaur.DTO.ReinoRequestDTO;
-import gallery_dinosaur.DTO.ReinoResponseDTO;
+
 import gallery_dinosaur.DTO.SubFamiliaRequestDTO;
 import gallery_dinosaur.DTO.SubFamiliaResponseDTO;
-import gallery_dinosaur.model.Reino;
 import gallery_dinosaur.model.SubFamilia;
 import gallery_dinosaur.repository.SubFamiliaRepository;
 import jakarta.persistence.EntityNotFoundException;
