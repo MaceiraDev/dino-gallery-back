@@ -45,18 +45,9 @@ public class Dinossauro {
     private SubFamilia subFamilia;
 
     public Dinossauro(@Valid DinossauroResponseDTO data) {
-        this.nome = data.nome();
-        this.clado = data.clado();
-        this.dieta = data.dieta();
-        this.dominio = data.dominio();
-        this.especie = data.especie();
-        this.familia = data.familia();
-        this.filo = data.filo();
-        this.genero = data.genero();
-        this.metodoLocomocao = data.metodoLocomocao();
-        this.periodo = data.periodo();
-        this.reino = data.reino();
-        this.subFamilia = data.subFamilia();
+
     }
 
+    public void setNome(String nome) {
+    }
 }
