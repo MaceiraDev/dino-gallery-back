@@ -26,7 +26,7 @@ public class DominioController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
-    public List<DominioResponseDTO> geAll() {
+    public List<DominioResponseDTO> getAll() {
         List<DominioResponseDTO> dominioList = repository.findAll().stream().map(DominioResponseDTO::new).toList();
         return dominioList;
     }

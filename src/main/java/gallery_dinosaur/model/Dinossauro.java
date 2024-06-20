@@ -14,8 +14,21 @@ public class Dinossauro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Setter
     private String nome;
+
+    @Setter
+    private Float tamanho;
+
+    @Setter
+    private Float peso;
+
+    @Setter
+    private String dieta_principal;
+
+    @Setter
+    private String habitat_natural;
 
     @ManyToOne
     @JoinColumn(name = "clado_id")
@@ -65,10 +78,16 @@ public class Dinossauro {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Dinossauro(DinossauroRequestDTO data, Clado clado, Dieta dieta, Dominio dominio, Especie especie,
+    public Dinossauro(DinossauroRequestDTO data,
+                      Clado clado, Dieta dieta, Dominio dominio, Especie especie,
                       Familia familia, Filo filo, Genero genero, MetodoLocomocao metodoLocomocao,
-                      Periodo periodo, Reino reino, SubFamilia subFamilia, User user) {
+                      Periodo periodo, Reino reino, SubFamilia subFamilia, User user)
+    {
         this.nome = data.nome();
+        this.tamanho = data.tamanho();
+        this.peso = data.peso();
+        this.dieta_principal = data.dieta_principal();
+        this.habitat_natural = data.habitat_natural();
         this.clado = clado;
         this.dieta = dieta;
         this.dominio = dominio;

@@ -6,6 +6,10 @@ import jakarta.validation.constraints.NotNull;
 
 public record DinossauroRequestDTO(
         String nome,
+        Float tamanho,
+        Float peso,
+        String dieta_principal,
+        String habitat_natural,
         Long clado,
         Long dieta,
         Long dominio,
