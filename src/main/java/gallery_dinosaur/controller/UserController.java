@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 @RestController
 @Controller
-@RequestMapping("users")
+@RequestMapping("user")
 
 public class UserController {
     private static final Logger LOGGER = Logger.getLogger(UserController.class.getName());

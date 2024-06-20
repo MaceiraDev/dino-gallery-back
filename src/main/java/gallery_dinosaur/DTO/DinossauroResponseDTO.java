@@ -2,32 +2,36 @@ package gallery_dinosaur.DTO;
 
 import gallery_dinosaur.model.*;
 
-public record DinossauroResponseDTO(Long id,String nome,
-                                    Clado clado,
-                                    Dieta dieta,
-                                    Dominio dominio,
-                                    Especie especie,
-                                    Familia familia,
-                                    Filo filo,
-                                    Genero genero,
-                                    MetodoLocomocao metodoLocomocao,
-                                    Periodo periodo,
-                                    Reino reino,
-                                    SubFamilia subFamilia
-
+public record DinossauroResponseDTO(Long id, String nome,
+                                    Long clado,
+                                    Long dieta,
+                                    Long dominio,
+                                    Long especie,
+                                    Long familia,
+                                    Long filo,
+                                    Long genero,
+                                    Long metodoLocomocao,
+                                    Long periodo,
+                                    Long reino,
+                                    Long subFamilia,
+                                    Long user
                                     ) {
     public DinossauroResponseDTO(Dinossauro dinossauro) {
         this(dinossauro.getId(), dinossauro.getNome(),
-                dinossauro.getClado(),
-                dinossauro.getDieta(),
-                dinossauro.getDominio(),
-                dinossauro.getEspecie(),
-                dinossauro.getFamilia(),
-                dinossauro.getFilo(),
-                dinossauro.getGenero(),
-                dinossauro.getMetodoLocomocao(),
-                dinossauro.getPeriodo(),
-                dinossauro.getReino(),
-                dinossauro.getSubFamilia());
+                dinossauro.getClado().getId(),
+                dinossauro.getDieta().getId(),
+                dinossauro.getDominio().getId(),
+                dinossauro.getEspecie().getId(),
+                dinossauro.getFamilia().getId(),
+                dinossauro.getFilo().getId(),
+                dinossauro.getGenero().getId(),
+                dinossauro.getMetodoLocomocao().getId(),
+                dinossauro.getPeriodo().getId(),
+                dinossauro.getReino().getId(),
+                dinossauro.getSubFamilia().getId(),
+                dinossauro.getUser().getId());
+
     }
+
+
 }

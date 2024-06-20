@@ -25,7 +25,6 @@ public class Filo {
         this.tipo = data.tipo();
     }
 
-
     public void setTipo(String tipo) {
 
     }
