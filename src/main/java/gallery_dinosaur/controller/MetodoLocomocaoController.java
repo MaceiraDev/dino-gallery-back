@@ -4,7 +4,7 @@ package gallery_dinosaur.controller;
 import gallery_dinosaur.DTO.MetodoLocomocaoRequestDTO;
 import gallery_dinosaur.DTO.MetodoLocomocaoResponseDTO;
 import gallery_dinosaur.model.MetodoLocomocao;
-import gallery_dinosaur.repository.MetodoLocomocaoRespository;
+import gallery_dinosaur.repository.MetodoLocomocaoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ public class MetodoLocomocaoController {
     private static final Logger LOGGER = Logger.getLogger(MetodoLocomocaoController.class.getName());
 
     @Autowired
-    MetodoLocomocaoRespository repository;
+    MetodoLocomocaoRepository repository;
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping

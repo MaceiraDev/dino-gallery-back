@@ -45,7 +45,7 @@ public class GeneroController {
     public ResponseEntity<String> salvarGenero(@Valid @RequestBody GeneroRequestDTO data) {
         Genero generoData = new Genero(data);
         repository.save(generoData);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Dieta criada com sucesso!");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Genero criado com sucesso!");
 
     }
 

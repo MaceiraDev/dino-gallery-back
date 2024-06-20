@@ -25,10 +25,10 @@ public class Dinossauro {
     private Float peso;
 
     @Setter
-    private String dieta_principal;
+    private String dietaPrincipal;
 
     @Setter
-    private String habitat_natural;
+    private String habitatNatural;
 
     @ManyToOne
     @JoinColumn(name = "clado_id")
@@ -74,20 +74,15 @@ public class Dinossauro {
     @JoinColumn(name = "sub_familia_id")
     private SubFamilia subFamilia;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
     public Dinossauro(DinossauroRequestDTO data,
                       Clado clado, Dieta dieta, Dominio dominio, Especie especie,
                       Familia familia, Filo filo, Genero genero, MetodoLocomocao metodoLocomocao,
-                      Periodo periodo, Reino reino, SubFamilia subFamilia, User user)
-    {
-        this.nome = data.nome();
-        this.tamanho = data.tamanho();
-        this.peso = data.peso();
-        this.dieta_principal = data.dieta_principal();
-        this.habitat_natural = data.habitat_natural();
+                      Periodo periodo, Reino reino, SubFamilia subFamilia) {
+        this.nome = data.getNome();
+        this.tamanho = data.getTamanho();
+        this.peso = data.getPeso();
+        this.dietaPrincipal = data.getDietaPrincipal();
+        this.habitatNatural = data.getHabitatNatural();
         this.clado = clado;
         this.dieta = dieta;
         this.dominio = dominio;
@@ -99,6 +94,5 @@ public class Dinossauro {
         this.periodo = periodo;
         this.reino = reino;
         this.subFamilia = subFamilia;
-        this.user = user;
     }
 }
