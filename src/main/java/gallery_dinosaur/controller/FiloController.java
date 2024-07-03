@@ -40,7 +40,7 @@ public class FiloController {
                 .orElseThrow(() -> new EntityNotFoundException("Filo não encontrada neste ID: " + id));
         return ResponseEntity.ok(filo);
     }
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarFilo(@Valid @RequestBody FiloRequestDTO data) {
         Filo filoData = new Filo(data);
@@ -48,7 +48,7 @@ public class FiloController {
         return ResponseEntity.status(HttpStatus.CREATED).body(" Filo criado com sucesso!");
 
     }
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarFilo(@PathVariable Long id) {
         try {
@@ -66,7 +66,7 @@ public class FiloController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o Filo. Por favor, tente novamente mais tarde.");
         }
     }
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarFilo(@PathVariable Long id, @Valid @RequestBody FiloRequestDTO data) {
         try {

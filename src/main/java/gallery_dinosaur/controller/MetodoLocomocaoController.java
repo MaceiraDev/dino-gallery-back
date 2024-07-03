@@ -49,7 +49,7 @@ public class MetodoLocomocaoController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Metodo de Locomoção criada com sucesso!");
 
     }
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarMetodoLocomocao(@PathVariable Long id) {
         try {
@@ -67,7 +67,7 @@ public class MetodoLocomocaoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o Metodo de Locomoção. Por favor, tente novamente mais tarde.");
         }
     }
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarMetodoLocomocao(@PathVariable Long id, @Valid @RequestBody MetodoLocomocaoRequestDTO data) {
         try {

@@ -42,7 +42,7 @@ public class PeriodoController {
                 .orElseThrow(() -> new EntityNotFoundException("Periodo não encontrada neste ID: " + id));
         return ResponseEntity.ok(periodo);
     }
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarPeriodo(@Valid @RequestBody PeriodoRequestDTO data) {
         Periodo periodoData = new Periodo(data);
@@ -50,7 +50,7 @@ public class PeriodoController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Periodo criada com sucesso!");
 
     }
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarPeriodo(@PathVariable Long id) {
         try {
@@ -68,7 +68,7 @@ public class PeriodoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o Metodo de Locomoção. Por favor, tente novamente mais tarde.");
         }
     }
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarPeriodo(@PathVariable Long id, @Valid @RequestBody PeriodoRequestDTO data) {
         try {

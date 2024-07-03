@@ -53,7 +53,6 @@ public class UserController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarUser(@PathVariable Long id) {
         try {
@@ -73,7 +72,6 @@ public class UserController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarUser(@PathVariable Long id, @Valid @RequestBody UserRequestDTO data) {
         try {

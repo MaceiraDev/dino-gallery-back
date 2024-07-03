@@ -18,7 +18,7 @@ public class MetodoLocomocao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Setter
-    @NotNull(message = " Selecione um tipo de locomoção")
+    @NotNull(message = "Metodo de locomocao obrigatorio")
     private String tipo;
 
     public MetodoLocomocao(MetodoLocomocaoRequestDTO data) {

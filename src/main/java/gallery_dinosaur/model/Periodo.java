@@ -19,7 +19,7 @@ public class Periodo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Setter
-    @NotNull(message = "Escolha um periodo")
+    @NotNull(message = "Periodo deve ser informado")
     private String dataPeriodo;
     private String tipo;
 
