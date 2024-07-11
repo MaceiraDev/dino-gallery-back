@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 
 
 public record FiloRequestDTO(
-        @NotNull(message = " Selecione o Filo")
+        @NotNull(message = "Filo é obrigatório")
         String tipo
 ) {
 }

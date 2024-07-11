@@ -16,8 +16,8 @@ import javax.validation.constraints.Pattern;
 public class Filo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Setter
     private Long id;
+    @Setter
     @NotNull(message = "O tipo de filo não pode ser nulo")
     private String tipo;
 
@@ -25,7 +25,4 @@ public class Filo {
         this.tipo = data.tipo();
     }
 
-    public void setTipo(String tipo) {
-
-    }
 }

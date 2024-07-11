@@ -41,7 +41,7 @@ public class MetodoLocomocaoController {
                 .orElseThrow(() -> new EntityNotFoundException("Mtodo de locomoção não encontrada neste ID: " + id));
         return ResponseEntity.ok(metodoLocomocao);
     }
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarMetodoLocomocao(@Valid @RequestBody MetodoLocomocaoRequestDTO data) {
         MetodoLocomocao metodolocomocaoData = new MetodoLocomocao(data);

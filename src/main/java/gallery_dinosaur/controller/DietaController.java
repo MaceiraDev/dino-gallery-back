@@ -1,6 +1,5 @@
 package gallery_dinosaur.controller;
 
-
 import gallery_dinosaur.DTO.DietaRequestDTO;
 import gallery_dinosaur.DTO.DietaResponseDTO;
 import gallery_dinosaur.model.Dieta;
@@ -9,7 +8,6 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,7 +16,6 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 @RestController
-@Controller
 @RequestMapping("dieta")
 public class DietaController {
     private static final Logger LOGGER = Logger.getLogger(DietaController.class.getName());
@@ -29,8 +26,7 @@ public class DietaController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public List<DietaResponseDTO> geAll() {
-        List<DietaResponseDTO> dietaList = repository.findAll().stream().map(DietaResponseDTO::new).toList();
-        return dietaList;
+        return repository.findAll().stream().map(DietaResponseDTO::new).toList();
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -44,49 +40,63 @@ public class DietaController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
-    public ResponseEntity<String> salvarDieta(@Valid @RequestBody DietaRequestDTO data) {
+    public ResponseEntity<Object> salvarDieta(@Valid @RequestBody DietaRequestDTO data) {
         Dieta dietaData = new Dieta(data);
         repository.save(dietaData);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Dieta criada com sucesso!");
-
+        return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponse("Dieta criada com sucesso!"));
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
-    public ResponseEntity<String> atualizarDieta(@PathVariable Long id, @Valid @RequestBody DietaRequestDTO data) {
+    public ResponseEntity<Object> atualizarDieta(@PathVariable Long id, @Valid @RequestBody DietaRequestDTO data) {
         try {
             Optional<Dieta> dietaOptional = repository.findById(id);
             if (dietaOptional.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Dieta não encontrada para o ID: " + id);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Dieta não encontrada para o ID: " + id));
             }
             Dieta dieta = dietaOptional.get();
             dieta.setTipo(data.tipo());
             repository.save(dieta);
-            return ResponseEntity.status(HttpStatus.OK).body("Dieta do ID: " + id + " atualizada com sucesso!");
+            return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse("Dieta do ID: " + id + " atualizada com sucesso!"));
         } catch (Exception e) {
             LOGGER.severe("Erro ao atualizar o Dieta com ID: " + id + ". Erro: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar o Dieta.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Erro ao atualizar o Dieta."));
         }
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<String> deletarDieta(@PathVariable Long id) {
+    public ResponseEntity<Object> deletarDieta(@PathVariable Long id) {
         try {
             if (id == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID não pode ser nulo.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("ID não pode ser nulo."));
             }
             Optional<Dieta> dietaOptional = repository.findById(id);
             if (dietaOptional.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Dieta não encontrada para o ID: " + id);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Dieta não encontrada para o ID: " + id));
             }
             repository.deleteById(id);
-            return ResponseEntity.status(HttpStatus.OK).body("Dieta do ID: " + id + " deletada com sucesso!");
+            return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse("Dieta do ID: " + id + " deletada com sucesso!"));
         } catch (Exception e) {
-            // Log the exception for debugging purposes
             LOGGER.info("Erro ao deletar a Dieta." + id);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar a Dieta. Por favor, tente novamente mais tarde.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Erro ao deletar a Dieta. Por favor, tente novamente mais tarde."));
         }
     }
 
+    // Classe interna para encapsular mensagens de resposta
+    static class MessageResponse {
+        private String message;
+
+        public MessageResponse(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+    }
 }
