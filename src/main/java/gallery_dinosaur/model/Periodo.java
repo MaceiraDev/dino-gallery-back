@@ -7,18 +7,18 @@ import lombok.*;
 
 
 
-@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Table(name = "periodo")
 @Entity(name = "Periodos")
+@Getter
+@Setter
 public class Periodo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Setter
     @NotNull(message = "Periodo deve ser informado")
     private String dataPeriodo;
     private String tipo;
@@ -26,9 +26,6 @@ public class Periodo {
     public Periodo(PeriodoRequestDTO data) {
         this.tipo = data.tipo();
         this.dataPeriodo = data.dataPeriodo();
-    }
-
-    public void setTipo(String tipo) {
     }
 }
 

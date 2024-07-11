@@ -78,6 +78,7 @@ public class PeriodoController {
             }
             Periodo periodo = periodoOptional.get();
             periodo.setTipo(data.tipo());
+            periodo.setDataPeriodo(data.dataPeriodo());
             repository.save(periodo);
             return ResponseEntity.status(HttpStatus.OK).body("Periodo do ID: " + id + " atualizada com sucesso!");
         } catch (Exception e) {
