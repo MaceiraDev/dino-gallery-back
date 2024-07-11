@@ -4,9 +4,8 @@ import jakarta.validation.constraints.NotNull;
 
 
 public record ReinoRequestDTO(
-        @NotNull(message ="Escolha um Reino")
-        String tipo,
-        String dataReino
+        @NotNull(message = "Reino não pode ser nulo")
+        String tipo
 ) {
 
 }

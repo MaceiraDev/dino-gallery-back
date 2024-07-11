@@ -34,7 +34,7 @@ public class MetodoLocomocaoController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/buscar/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<MetodoLocomocaoResponseDTO> getById(@PathVariable Long id) {
         MetodoLocomocaoResponseDTO metodoLocomocao = repository.findById(id)
                 .map(MetodoLocomocaoResponseDTO::new)

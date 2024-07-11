@@ -33,7 +33,7 @@ public class GeneroController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/buscar/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<GeneroResponseDTO> getById(@PathVariable Long id) {
         GeneroResponseDTO genero = repository.findById(id)
                 .map(GeneroResponseDTO::new)

@@ -33,7 +33,7 @@ public class FamiliaController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/buscar/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<FamiliaResponseDTO> getById(@PathVariable Long id) {
         FamiliaResponseDTO familia = repository.findById(id)
                 .map(FamiliaResponseDTO::new)

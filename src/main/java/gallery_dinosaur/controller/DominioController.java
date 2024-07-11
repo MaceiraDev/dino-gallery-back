@@ -32,7 +32,7 @@ public class DominioController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/buscar/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<DominioResponseDTO> getById(@PathVariable Long id) {
         DominioResponseDTO dieta = repository.findById(id)
                 .map(DominioResponseDTO::new)

@@ -35,7 +35,7 @@ public class SubFamiliaController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/buscar/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<SubFamiliaResponseDTO> getById(@PathVariable Long id) {
         SubFamiliaResponseDTO subFamilia = repository.findById(id)
                 .map(SubFamiliaResponseDTO::new)

@@ -1,7 +1,6 @@
 package gallery_dinosaur.controller;
 
 
-
 import gallery_dinosaur.DTO.ReinoRequestDTO;
 import gallery_dinosaur.DTO.ReinoResponseDTO;
 import gallery_dinosaur.model.Reino;
@@ -27,6 +26,7 @@ public class ReinoController {
 
     @Autowired
     ReinoRepository repository;
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public List<ReinoResponseDTO> geAll() {
@@ -34,22 +34,23 @@ public class ReinoController {
         return reinoList;
     }
 
-
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/buscar/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ReinoResponseDTO> getById(@PathVariable Long id) {
         ReinoResponseDTO reino = repository.findById(id)
                 .map(ReinoResponseDTO::new)
-                .orElseThrow(() -> new EntityNotFoundException("Reino não encontrada neste ID: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Reino não encontrado neste ID: " + id));
         return ResponseEntity.ok(reino);
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarReino(@Valid @RequestBody ReinoRequestDTO data) {
         Reino reinoData = new Reino(data);
         repository.save(reinoData);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Reino criada com sucesso!");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Reino criado com sucesso!");
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarReino(@PathVariable Long id) {
@@ -59,27 +60,28 @@ public class ReinoController {
             }
             Optional<Reino> reinoOptional = repository.findById(id);
             if (reinoOptional.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Reino não encontrada para o ID: " + id);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Reino não encontrado para o ID: " + id);
             }
             repository.deleteById(id);
-            return ResponseEntity.status(HttpStatus.OK).body("Reino do ID: " + id + " deletada com sucesso!");
+            return ResponseEntity.status(HttpStatus.OK).body("Reino do ID: " + id + " deletado com sucesso!");
         } catch (Exception e) {
             LOGGER.info("Erro ao deletar" + id);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o Reino. Por favor, tente novamente mais tarde.");
         }
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarPeriodo(@PathVariable Long id, @Valid @RequestBody ReinoRequestDTO data) {
         try {
             Optional<Reino> reinoOptional = repository.findById(id);
             if (reinoOptional.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Reino não encontrada para o ID: " + id);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Reino não encontrado para o ID: " + id);
             }
             Reino reino = reinoOptional.get();
             reino.setTipo(data.tipo());
             repository.save(reino);
-            return ResponseEntity.status(HttpStatus.OK).body("Reino do ID: " + id + " atualizada com sucesso!");
+            return ResponseEntity.status(HttpStatus.OK).body("Reino do ID: " + id + " atualizado com sucesso!");
         } catch (Exception e) {
             LOGGER.severe("Erro ao atualizar o Reino com ID: " + id + ". Erro: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar o Reino. Por favor, tente novamente mais tarde.");

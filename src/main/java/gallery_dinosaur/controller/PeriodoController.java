@@ -35,7 +35,7 @@ public class PeriodoController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/buscar/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<PeriodoResponseDTO> getById(@PathVariable Long id) {
         PeriodoResponseDTO periodo = repository.findById(id)
                 .map(PeriodoResponseDTO::new)

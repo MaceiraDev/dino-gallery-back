@@ -13,18 +13,17 @@ import javax.validation.constraints.Pattern;
 @EqualsAndHashCode(of = "id")
 @Table(name = "reino")
 @Entity(name = "Reinos")
+
 public class Reino {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Setter
-    @NotNull(message = "Escolha um Reino")
+    @NotNull(message = "Reino não pode ser nulo")
     private String tipo;
-    private String dataReino;
 
     public Reino(ReinoRequestDTO data) {
         this.tipo = data.tipo();
-        this.dataReino = data.dataReino();
     }
 }
 

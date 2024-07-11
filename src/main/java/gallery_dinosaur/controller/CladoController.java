@@ -35,7 +35,7 @@ public class CladoController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/buscar/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<CladoResponseDTO> getById(@PathVariable Long id) {
         CladoResponseDTO clado = repository.findById(id)
                 .map(CladoResponseDTO::new)
