@@ -2,12 +2,10 @@ package gallery_dinosaur.model;
 
 
 import gallery_dinosaur.DTO.GeneroRequestDTO;
-import gallery_dinosaur.DTO.MetodoLocomocaoRequestDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 @Getter
 @NoArgsConstructor

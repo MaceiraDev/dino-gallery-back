@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-
-
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
