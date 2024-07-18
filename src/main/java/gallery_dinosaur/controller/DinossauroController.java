@@ -13,6 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+
+import static gallery_dinosaur.controller.FiloController.LOGGER;
 
 @RestController
 @RequestMapping("dinossauro")
@@ -89,6 +92,25 @@ public class DinossauroController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponse("Dinossauro criado com sucesso!"));
     }
 
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity<Object> deletarDieta(@PathVariable Long id) {
+        try {
+            if (id == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new DietaController.MessageResponse("ID não pode ser nulo."));
+            }
+            Optional<Dinossauro> dinossauroOptional = repository.findById(id);
+            if (dinossauroOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DietaController.MessageResponse("Dinossauro não encontrado para o ID: " + id));
+            }
+            repository.deleteById(id);
+            return ResponseEntity.status(HttpStatus.OK).body(new DietaController.MessageResponse("Dinossauro do ID: " + id + " deletado com sucesso!"));
+        } catch (Exception e) {
+            LOGGER.info("Erro ao deletar a Dieta." + id);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new DietaController.MessageResponse("Erro ao deletar o Dinossauro. Por favor, tente novamente mais tarde."));
+        }
+    }
 
     // Classe interna para encapsular mensagens de resposta
     static class MessageResponse {
