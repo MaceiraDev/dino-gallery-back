@@ -53,7 +53,6 @@ public class DinossauroController {
     @Autowired
     SubFamiliaRepository subFamiliaRepository;
 
-
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public List<DinossauroResponseDTO> getAll() {
@@ -62,33 +61,49 @@ public class DinossauroController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/{id}")
+    public ResponseEntity<DinossauroResponseDTO> getById(@PathVariable Long id) {
+        DinossauroResponseDTO dino = repository.findById(id)
+                .map(DinossauroResponseDTO::new)
+                .orElseThrow(() -> new EntityNotFoundException("Dinossauro não encontrado neste ID: " + id));
+        return ResponseEntity.ok(dino);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
-    public ResponseEntity<String> salvarDinossauro(@Valid @RequestBody DinossauroRequestDTO data) {
+    public ResponseEntity<MessageResponse> salvarDinossauro(@Valid @RequestBody DinossauroRequestDTO data) {
         Clado clado = cladoRepository.findById(data.getCladoId()).orElseThrow(() -> new EntityNotFoundException("Clado não encontrado"));
-
         Dieta dieta = dietaRepository.findById(data.getDietaId()).orElseThrow(() -> new EntityNotFoundException("Dieta não encontrada"));
-
         Dominio dominio = dominioRepository.findById(data.getDominioId()).orElseThrow(() -> new EntityNotFoundException("Dominio não encontrado"));
-
         Especie especie = especieRepository.findById(data.getEspecieId()).orElseThrow(() -> new EntityNotFoundException("Especie não encontrada"));
-
         Familia familia = familiaRepository.findById(data.getFamiliaId()).orElseThrow(() -> new EntityNotFoundException("Familia não encontrada"));
-
         Filo filo = filoRepository.findById(data.getFiloId()).orElseThrow(() -> new EntityNotFoundException("Filo não encontrado"));
-
         Genero genero = generoRepository.findById(data.getGeneroId()).orElseThrow(() -> new EntityNotFoundException("Genero não encontrado"));
-
         MetodoLocomocao metodoLocomocao = metodoLocomocaoRepository.findById(data.getMetodoLocomocaoId()).orElseThrow(() -> new EntityNotFoundException("Metodo de Locomocao não encontrado"));
-
         Periodo periodo = periodoRepository.findById(data.getPeriodoId()).orElseThrow(() -> new EntityNotFoundException("Periodo não encontrado"));
-
         Reino reino = reinoRepository.findById(data.getReinoId()).orElseThrow(() -> new EntityNotFoundException("Reino não encontrado"));
-
         SubFamilia subFamilia = subFamiliaRepository.findById(data.getSubFamiliaId()).orElseThrow(() -> new EntityNotFoundException("SubFamilia não encontrada"));
 
         Dinossauro dinossauroData = new Dinossauro(data, clado, dieta, dominio, especie, familia, filo, genero, metodoLocomocao, periodo, reino, subFamilia);
         repository.save(dinossauroData);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Dinossauro criado com sucesso!");
+        return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponse("Dinossauro criado com sucesso!"));
     }
 
+
+    // Classe interna para encapsular mensagens de resposta
+    static class MessageResponse {
+        private String message;
+
+        public MessageResponse(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+    }
 }
