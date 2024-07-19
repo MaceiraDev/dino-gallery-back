@@ -95,4 +95,7 @@ public class Dinossauro {
         this.reino = reino;
         this.subFamilia = subFamilia;
     }
+
+    public void setTipo(String tipo) {
+    }
 }

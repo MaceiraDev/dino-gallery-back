@@ -34,10 +34,10 @@ public class DominioController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/{id}")
     public ResponseEntity<DominioResponseDTO> getById(@PathVariable Long id) {
-        DominioResponseDTO dieta = repository.findById(id)
+        DominioResponseDTO dominio = repository.findById(id)
                 .map(DominioResponseDTO::new)
                 .orElseThrow(() -> new EntityNotFoundException("Dominio não encontrada neste ID: " + id));
-        return ResponseEntity.ok(dieta);
+        return ResponseEntity.ok(dominio);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")

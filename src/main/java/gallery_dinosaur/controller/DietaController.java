@@ -47,24 +47,6 @@ public class DietaController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PutMapping("/atualizar/{id}")
-    public ResponseEntity<Object> atualizarDieta(@PathVariable Long id, @Valid @RequestBody DietaRequestDTO data) {
-        try {
-            Optional<Dieta> dietaOptional = repository.findById(id);
-            if (dietaOptional.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Dieta não encontrada para o ID: " + id));
-            }
-            Dieta dieta = dietaOptional.get();
-            dieta.setTipo(data.tipo());
-            repository.save(dieta);
-            return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse("Dieta do ID: " + id + " atualizada com sucesso!"));
-        } catch (Exception e) {
-            LOGGER.severe("Erro ao atualizar o Dieta com ID: " + id + ". Erro: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Erro ao atualizar o Dieta."));
-        }
-    }
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Object> deletarDieta(@PathVariable Long id) {
         try {
@@ -82,6 +64,26 @@ public class DietaController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Erro ao deletar a Dieta. Por favor, tente novamente mais tarde."));
         }
     }
+
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<Object> atualizarDieta(@PathVariable Long id, @Valid @RequestBody DietaRequestDTO data) {
+        try {
+            Optional<Dieta> dietaOptional = repository.findById(id);
+            if (dietaOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Dieta não encontrada para o ID: " + id));
+            }
+            Dieta dieta = dietaOptional.get();
+            dieta.setTipo(data.tipo());
+            repository.save(dieta);
+            return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse("Dieta do ID: " + id + " atualizada com sucesso!"));
+        } catch (Exception e) {
+            LOGGER.severe("Erro ao atualizar o Dieta com ID: " + id + ". Erro: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Erro ao atualizar o Dieta."));
+        }
+    }
+
 
     // Classe interna para encapsular mensagens de resposta
     static class MessageResponse {

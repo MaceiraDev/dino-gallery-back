@@ -2,7 +2,7 @@ package gallery_dinosaur.controller;
 
 import gallery_dinosaur.DTO.DinossauroRequestDTO;
 import gallery_dinosaur.DTO.DinossauroResponseDTO;
-import gallery_dinosaur.DTO.DominioResponseDTO;
+import gallery_dinosaur.DTO.DominioRequestDTO;
 import gallery_dinosaur.model.*;
 import gallery_dinosaur.repository.*;
 import jakarta.persistence.EntityNotFoundException;
@@ -92,25 +92,43 @@ public class DinossauroController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponse("Dinossauro criado com sucesso!"));
     }
 
-
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<Object> deletarDieta(@PathVariable Long id) {
+    public ResponseEntity<Object> deletarDinossauro(@PathVariable Long id) {
         try {
             if (id == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new DietaController.MessageResponse("ID não pode ser nulo."));
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new DinossauroController.MessageResponse("ID não pode ser nulo."));
             }
             Optional<Dinossauro> dinossauroOptional = repository.findById(id);
             if (dinossauroOptional.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DietaController.MessageResponse("Dinossauro não encontrado para o ID: " + id));
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DinossauroController.MessageResponse("Dinossauro não encontrado para o ID: " + id));
             }
             repository.deleteById(id);
-            return ResponseEntity.status(HttpStatus.OK).body(new DietaController.MessageResponse("Dinossauro do ID: " + id + " deletado com sucesso!"));
+            return ResponseEntity.status(HttpStatus.OK).body(new DinossauroController.MessageResponse("Dinossauro do ID: " + id + " deletado com sucesso!"));
         } catch (Exception e) {
             LOGGER.info("Erro ao deletar a Dieta." + id);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new DietaController.MessageResponse("Erro ao deletar o Dinossauro. Por favor, tente novamente mais tarde."));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new DinossauroController.MessageResponse("Erro ao deletar o Dinossauro. Por favor, tente novamente mais tarde."));
         }
     }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<String> atualizarDinossauro(@PathVariable Long id, @javax.validation.Valid @RequestBody DominioRequestDTO data) {
+        try {
+            Optional<Dinossauro> dinossauroOptional = repository.findById(id);
+            if (dinossauroOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Dinossauro não encontrada para o ID: " + id);
+            }
+            Dinossauro dinossauro = dinossauroOptional.get();
+            dinossauro.setTipo(data.tipo());
+            repository.save(dinossauro);
+            return ResponseEntity.status(HttpStatus.OK).body("Dinossauro do ID: " + id + " atualizada com sucesso!");
+        } catch (Exception e) {
+            LOGGER.severe("Erro ao atualizar o Dinossauro com ID: " + id + ". Erro: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar o Dinossauro.");
+        }
+    }
+
 
     // Classe interna para encapsular mensagens de resposta
     static class MessageResponse {
