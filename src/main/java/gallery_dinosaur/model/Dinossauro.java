@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Table(name = "dinossauro")
 @Entity(name = "Dinossauros")
 public class Dinossauro {
@@ -94,8 +95,5 @@ public class Dinossauro {
         this.periodo = periodo;
         this.reino = reino;
         this.subFamilia = subFamilia;
-    }
-
-    public void setTipo(String tipo) {
     }
 }
