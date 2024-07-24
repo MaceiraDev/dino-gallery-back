@@ -13,8 +13,8 @@ public class MezozoicoController {
     @Autowired
     private MezozoicoRepository mezozoicoRepository;
 
-
-    @GetMapping("/contarIds")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/contar-ids")
     public ResponseEntity<Integer> contarTodosIds() {
         int count = mezozoicoRepository.countAllIds();
         return ResponseEntity.ok(count);
