@@ -1,6 +1,8 @@
 package gallery_dinosaur.DTO;
 
-import gallery_dinosaur.model.*;
+import gallery_dinosaur.model.Dinossauro;
+
+import java.util.List;
 
 public record DinossauroResponseDTO(
         Long id,
@@ -19,9 +21,10 @@ public record DinossauroResponseDTO(
         Long metodoLocomocaoId,
         Long periodoId,
         Long reinoId,
-        Long subFamiliaId
-        ) {
-    public DinossauroResponseDTO(Dinossauro dinossauro) {
+        Long subFamiliaId,
+        List<ImageResponseDTO> images
+) {
+    public DinossauroResponseDTO(Dinossauro dinossauro, List<ImageResponseDTO> images) {
         this(
                 dinossauro.getId(),
                 dinossauro.getNome(),
@@ -39,7 +42,8 @@ public record DinossauroResponseDTO(
                 dinossauro.getMetodoLocomocao() != null ? dinossauro.getMetodoLocomocao().getId() : null,
                 dinossauro.getPeriodo() != null ? dinossauro.getPeriodo().getId() : null,
                 dinossauro.getReino() != null ? dinossauro.getReino().getId() : null,
-                dinossauro.getSubFamilia() != null ? dinossauro.getSubFamilia().getId() : null
-                );
+                dinossauro.getSubFamilia() != null ? dinossauro.getSubFamilia().getId() : null,
+                images
+        );
     }
 }

@@ -2,6 +2,7 @@ package gallery_dinosaur.controller;
 
 import gallery_dinosaur.DTO.DinossauroRequestDTO;
 import gallery_dinosaur.DTO.DinossauroResponseDTO;
+import gallery_dinosaur.DTO.ImageResponseDTO;
 import gallery_dinosaur.model.*;
 import gallery_dinosaur.repository.*;
 import jakarta.transaction.Transactional;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("dinossauro")
@@ -60,26 +62,48 @@ public class DinossauroController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public List<DinossauroResponseDTO> getAll() {
-        return repository.findAll().stream()
-                .map(DinossauroResponseDTO::new)
-                .toList();
+        // Obtenha todos os dinossauros
+        List<Dinossauro> dinossauros = repository.findAll();
+
+        // Para cada dinossauro, buscar suas imagens e criar o DTO
+        return dinossauros.stream()
+                .map(dinossauro -> {
+                    // Buscar as imagens associadas ao dinossauro
+                    List<Image> imagens = imageRepository.findByDinossauroId(dinossauro.getId());
+                    List<ImageResponseDTO> imageResponseDTOs = imagens.stream()
+                            .map(image -> new ImageResponseDTO(image.getUrl())) // Criar ImageResponseDTO para cada imagem
+                            .collect(Collectors.toList());
+                    // Criar e retornar o DTO com imagens
+                    return new DinossauroResponseDTO(dinossauro, imageResponseDTOs);
+                })
+                .collect(Collectors.toList()); // Coletar a lista final
     }
+
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/{id}")
     public ResponseEntity<DinossauroResponseDTO> getById(@PathVariable Long id) {
         Optional<Dinossauro> dinossauroOptional = repository.findById(id);
         if (dinossauroOptional.isPresent()) {
-            DinossauroResponseDTO dino = new DinossauroResponseDTO(dinossauroOptional.get());
-            return ResponseEntity.ok(dino);
+            Dinossauro dinossauro = dinossauroOptional.get();
+
+            // Buscar a lista de imagens associadas ao dinossauro
+            List<Image> imagens = imageRepository.findByDinossauroId(id);
+            List<ImageResponseDTO> imageResponseDTOs = imagens.stream()
+                    .map(image -> new ImageResponseDTO(image.getUrl())) // Criar ImageResponseDTO para cada imagem
+                    .toList();
+
+            DinossauroResponseDTO dinoResponseDTO = new DinossauroResponseDTO(dinossauro, imageResponseDTOs);
+            return ResponseEntity.ok(dinoResponseDTO);
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(null);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
+
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<DinossauroResponseDTO> salvarDinossauro(@Valid @RequestBody DinossauroRequestDTO data) {
+        // Buscar as entidades associadas
         Clado clado = cladoRepository.findById(data.getCladoId()).orElse(null);
         Dieta dieta = dietaRepository.findById(data.getDietaId()).orElse(null);
         Dominio dominio = dominioRepository.findById(data.getDominioId()).orElse(null);
@@ -92,17 +116,21 @@ public class DinossauroController {
         Reino reino = reinoRepository.findById(data.getReinoId()).orElse(null);
         SubFamilia subFamilia = subFamiliaRepository.findById(data.getSubFamiliaId()).orElse(null);
 
+        // Verificar se alguma entidade não foi encontrada
         if (clado == null || dieta == null || dominio == null || especie == null || familia == null ||
                 filo == null || genero == null || metodoLocomocao == null || periodo == null || reino == null || subFamilia == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 
+        // Criar e salvar o dinossauro
         Dinossauro dinossauroData = new Dinossauro(data, clado, dieta, dominio, especie, familia, filo, genero, metodoLocomocao, periodo, reino, subFamilia);
         Dinossauro savedDinossauro = repository.save(dinossauroData);
 
-        DinossauroResponseDTO responseDTO = new DinossauroResponseDTO(savedDinossauro);
+        // Criar e retornar a resposta
+        DinossauroResponseDTO responseDTO = new DinossauroResponseDTO(savedDinossauro, List.of()); // Substitua List.of() com a lista de URLs se necessário
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
+
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
