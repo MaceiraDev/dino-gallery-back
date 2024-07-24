@@ -2,7 +2,6 @@ package gallery_dinosaur.controller;
 
 import gallery_dinosaur.DTO.DinossauroRequestDTO;
 import gallery_dinosaur.DTO.DinossauroResponseDTO;
-import gallery_dinosaur.DTO.DominioRequestDTO;
 import gallery_dinosaur.model.*;
 import gallery_dinosaur.repository.*;
 import jakarta.persistence.EntityNotFoundException;
@@ -10,16 +9,20 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-
-import static gallery_dinosaur.controller.FiloController.LOGGER;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("dinossauro")
 public class DinossauroController {
+    private static final Logger LOGGER = Logger.getLogger(DinossauroController.class.getName());
+
     @Autowired
     DinossauroRepository repository;
 
@@ -74,7 +77,7 @@ public class DinossauroController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
-    public ResponseEntity<MessageResponse> salvarDinossauro(@Valid @RequestBody DinossauroRequestDTO data) {
+    public ResponseEntity<GlobalExceptionHandler.MessageResponse> salvarDinossauro(@Valid @RequestBody DinossauroRequestDTO data) {
         Clado clado = cladoRepository.findById(data.getCladoId()).orElseThrow(() -> new EntityNotFoundException("Clado não encontrado"));
         Dieta dieta = dietaRepository.findById(data.getDietaId()).orElseThrow(() -> new EntityNotFoundException("Dieta não encontrada"));
         Dominio dominio = dominioRepository.findById(data.getDominioId()).orElseThrow(() -> new EntityNotFoundException("Dominio não encontrado"));
@@ -89,61 +92,85 @@ public class DinossauroController {
 
         Dinossauro dinossauroData = new Dinossauro(data, clado, dieta, dominio, especie, familia, filo, genero, metodoLocomocao, periodo, reino, subFamilia);
         repository.save(dinossauroData);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponse("Dinossauro criado com sucesso!"));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new GlobalExceptionHandler.MessageResponse("Dinossauro criado com sucesso!"));
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<Object> deletarDinossauro(@PathVariable Long id) {
-        try {
-            if (id == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new DinossauroController.MessageResponse("ID não pode ser nulo."));
-            }
-            Optional<Dinossauro> dinossauroOptional = repository.findById(id);
-            if (dinossauroOptional.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DinossauroController.MessageResponse("Dinossauro não encontrado para o ID: " + id));
-            }
-            repository.deleteById(id);
-            return ResponseEntity.status(HttpStatus.OK).body(new DinossauroController.MessageResponse("Dinossauro do ID: " + id + " deletado com sucesso!"));
-        } catch (Exception e) {
-            LOGGER.info("Erro ao deletar a Dieta." + id);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new DinossauroController.MessageResponse("Erro ao deletar o Dinossauro. Por favor, tente novamente mais tarde."));
+    public ResponseEntity<GlobalExceptionHandler.MessageResponse> deletarDinossauro(@PathVariable Long id) {
+        if (id == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GlobalExceptionHandler.MessageResponse("ID não pode ser nulo."));
         }
+        Optional<Dinossauro> dinossauroOptional = repository.findById(id);
+        if (dinossauroOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new GlobalExceptionHandler.MessageResponse("Dinossauro não encontrado para o ID: " + id));
+        }
+        repository.deleteById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(new GlobalExceptionHandler.MessageResponse("Dinossauro do ID: " + id + " deletado com sucesso!"));
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
-    public ResponseEntity<String> atualizarDinossauro(@PathVariable Long id, @javax.validation.Valid @RequestBody DominioRequestDTO data) {
-        try {
-            Optional<Dinossauro> dinossauroOptional = repository.findById(id);
-            if (dinossauroOptional.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Dinossauro não encontrada para o ID: " + id);
-            }
-            Dinossauro dinossauro = dinossauroOptional.get();
-            dinossauro.setTipo(data.tipo());
-            repository.save(dinossauro);
-            return ResponseEntity.status(HttpStatus.OK).body("Dinossauro do ID: " + id + " atualizada com sucesso!");
-        } catch (Exception e) {
-            LOGGER.severe("Erro ao atualizar o Dinossauro com ID: " + id + ". Erro: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar o Dinossauro.");
+    public ResponseEntity<GlobalExceptionHandler.MessageResponse> atualizarDinossauro(@PathVariable Long id, @Valid @RequestBody DinossauroRequestDTO data) {
+        Optional<Dinossauro> dinossauroOptional = repository.findById(id);
+        if (dinossauroOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new GlobalExceptionHandler.MessageResponse("Dinossauro não encontrado para o ID: " + id));
         }
+        Dinossauro dinossauro = dinossauroOptional.get();
+        dinossauro.setNome(data.getNome());
+        dinossauro.setTamanho(data.getTamanho());
+        dinossauro.setPeso(data.getPeso());
+        dinossauro.setDietaPrincipal(data.getDietaPrincipal());
+        dinossauro.setHabitatNatural(data.getHabitatNatural());
+        dinossauro.setClado(cladoRepository.findById(data.getCladoId()).orElseThrow(() -> new EntityNotFoundException("Clado não encontrado")));
+        dinossauro.setDieta(dietaRepository.findById(data.getDietaId()).orElseThrow(() -> new EntityNotFoundException("Dieta não encontrada")));
+        dinossauro.setDominio(dominioRepository.findById(data.getDominioId()).orElseThrow(() -> new EntityNotFoundException("Dominio não encontrado")));
+        dinossauro.setEspecie(especieRepository.findById(data.getEspecieId()).orElseThrow(() -> new EntityNotFoundException("Especie não encontrada")));
+        dinossauro.setFamilia(familiaRepository.findById(data.getFamiliaId()).orElseThrow(() -> new EntityNotFoundException("Familia não encontrada")));
+        dinossauro.setFilo(filoRepository.findById(data.getFiloId()).orElseThrow(() -> new EntityNotFoundException("Filo não encontrado")));
+        dinossauro.setGenero(generoRepository.findById(data.getGeneroId()).orElseThrow(() -> new EntityNotFoundException("Genero não encontrado")));
+        dinossauro.setMetodoLocomocao(metodoLocomocaoRepository.findById(data.getMetodoLocomocaoId()).orElseThrow(() -> new EntityNotFoundException("Metodo de Locomocao não encontrado")));
+        dinossauro.setPeriodo(periodoRepository.findById(data.getPeriodoId()).orElseThrow(() -> new EntityNotFoundException("Periodo não encontrado")));
+        dinossauro.setReino(reinoRepository.findById(data.getReinoId()).orElseThrow(() -> new EntityNotFoundException("Reino não encontrado")));
+        dinossauro.setSubFamilia(subFamiliaRepository.findById(data.getSubFamiliaId()).orElseThrow(() -> new EntityNotFoundException("SubFamilia não encontrada")));
+        repository.save(dinossauro);
+        return ResponseEntity.status(HttpStatus.OK).body(new GlobalExceptionHandler.MessageResponse("Dinossauro do ID: " + id + " atualizada com sucesso!"));
     }
 
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<GlobalExceptionHandler.MessageResponse> handleEntityNotFoundException(EntityNotFoundException ex) {
+        LOGGER.severe("Entity not found: " + ex.getMessage());
+        return new ResponseEntity<>(new GlobalExceptionHandler.MessageResponse(ex.getMessage()), HttpStatus.NOT_FOUND);
+    }
 
-    // Classe interna para encapsular mensagens de resposta
-    static class MessageResponse {
-        private String message;
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
 
-        public MessageResponse(String message) {
-            this.message = message;
-        }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<GlobalExceptionHandler.MessageResponse> handleGlobalException(Exception ex) {
+        LOGGER.severe("Error occurred: " + ex.getMessage());
+        return new ResponseEntity<>(new GlobalExceptionHandler.MessageResponse("Ouve algum erro, reclame com o caetano. https://www.facebook.com/photo/?fbid=602140598682206&set=a.261967682699501&locale=pt_BR"), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
-        public String getMessage() {
-            return message;
-        }
+    static class GlobalExceptionHandler {
+        static class MessageResponse {
+            private String message;
 
-        public void setMessage(String message) {
-            this.message = message;
+            public MessageResponse(String message) {
+                this.message = message;
+            }
+
+            public String getMessage() {
+                return message;
+            }
+
+            public void setMessage(String message) {
+                this.message = message;
+            }
         }
     }
 }

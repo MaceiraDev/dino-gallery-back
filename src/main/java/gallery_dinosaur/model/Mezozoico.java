@@ -18,9 +18,5 @@ public class Mezozoico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-
-
-
 }
 

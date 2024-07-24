@@ -9,17 +9,17 @@ public record DinossauroResponseDTO(
         Float peso,
         String dietaPrincipal,
         String habitatNatural,
-        Long clado,
-        Long dieta,
-        Long dominio,
-        Long especie,
-        Long familia,
-        Long filo,
-        Long genero,
-        Long metodoLocomocao,
-        Long periodo,
-        Long reino,
-        Long subFamilia
+        Long cladoId,
+        Long dietaId,
+        Long dominioId,
+        Long especieId,
+        Long familiaId,
+        Long filoId,
+        Long generoId,
+        Long metodoLocomocaoId,
+        Long periodoId,
+        Long reinoId,
+        Long subFamiliaId
         ) {
     public DinossauroResponseDTO(Dinossauro dinossauro) {
         this(
