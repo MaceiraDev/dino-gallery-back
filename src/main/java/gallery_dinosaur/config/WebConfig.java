@@ -10,6 +10,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:/D:/Nova pasta/gallery_dinosaur/uploads/");
+                .addResourceLocations("C:\\Users\\orlando\\Documents\\dino-gallery-back\\uploads");
     }
 }
