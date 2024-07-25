@@ -27,14 +27,12 @@ public class ReinoController {
     @Autowired
     ReinoRepository repository;
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public List<ReinoResponseDTO> geAll() {
         List<ReinoResponseDTO> reinoList = repository.findAll().stream().map(ReinoResponseDTO::new).toList();
         return reinoList;
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/{id}")
     public ResponseEntity<ReinoResponseDTO> getById(@PathVariable Long id) {
         ReinoResponseDTO reino = repository.findById(id)
@@ -43,7 +41,6 @@ public class ReinoController {
         return ResponseEntity.ok(reino);
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarReino(@Valid @RequestBody ReinoRequestDTO data) {
         Reino reinoData = new Reino(data);
@@ -51,7 +48,6 @@ public class ReinoController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Reino criado com sucesso!");
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarReino(@PathVariable Long id) {
         try {
@@ -70,7 +66,6 @@ public class ReinoController {
         }
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarPeriodo(@PathVariable Long id, @Valid @RequestBody ReinoRequestDTO data) {
         try {

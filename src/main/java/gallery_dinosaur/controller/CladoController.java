@@ -27,14 +27,12 @@ public class CladoController {
     @Autowired
     CladoRepository repository;
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public List<CladoResponseDTO> geAll() {
         List<CladoResponseDTO> cladoList = repository.findAll().stream().map(CladoResponseDTO::new).toList();
         return cladoList;
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/{id}")
     public ResponseEntity<CladoResponseDTO> getById(@PathVariable Long id) {
         CladoResponseDTO clado = repository.findById(id)
@@ -43,7 +41,6 @@ public class CladoController {
         return ResponseEntity.ok(clado);
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarClado(@Valid @RequestBody CladoRequestDTO data) {
         Clado cladoData = new Clado(data);
@@ -52,7 +49,6 @@ public class CladoController {
 
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarClado(@PathVariable Long id) {
         try {
@@ -72,7 +68,6 @@ public class CladoController {
         }
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarClado(@PathVariable Long id, @Valid @RequestBody CladoRequestDTO data) {
         try {

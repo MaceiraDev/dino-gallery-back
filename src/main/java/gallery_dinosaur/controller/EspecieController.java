@@ -27,14 +27,12 @@ public class EspecieController {
     @Autowired
     EspecieRepository repository;
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public List<EspecieResponseDTO> getAll() {
         List<EspecieResponseDTO> especieList = repository.findAll().stream().map(EspecieResponseDTO::new).toList();
         return especieList;
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/{id}")
     public ResponseEntity<EspecieResponseDTO> getById(@PathVariable Long id) {
         EspecieResponseDTO dieta = repository.findById(id)
@@ -43,7 +41,6 @@ public class EspecieController {
         return ResponseEntity.ok(dieta);
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarEspecie(@Valid @RequestBody EspecieRequestDTO data) {
         Especie especieData = new Especie(data);
@@ -51,7 +48,6 @@ public class EspecieController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Especie criada com sucesso!");
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Object> deletarEspecie(@PathVariable Long id) {
         try {
@@ -71,7 +67,6 @@ public class EspecieController {
         }
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<Object> atualizarEspecie(@PathVariable Long id, @Valid @RequestBody EspecieRequestDTO data) {
         try {

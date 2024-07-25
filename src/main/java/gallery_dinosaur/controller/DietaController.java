@@ -23,13 +23,11 @@ public class DietaController {
     @Autowired
     DietaRepository repository;
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public List<DietaResponseDTO> geAll() {
         return repository.findAll().stream().map(DietaResponseDTO::new).toList();
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/{id}")
     public ResponseEntity<DietaResponseDTO> getById(@PathVariable Long id) {
         DietaResponseDTO dieta = repository.findById(id)
@@ -38,7 +36,6 @@ public class DietaController {
         return ResponseEntity.ok(dieta);
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<Object> salvarDieta(@Valid @RequestBody DietaRequestDTO data) {
         Dieta dietaData = new Dieta(data);
@@ -46,7 +43,6 @@ public class DietaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponse("Dieta criada com sucesso!"));
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Object> deletarDieta(@PathVariable Long id) {
         try {
@@ -66,7 +62,6 @@ public class DietaController {
     }
 
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<Object> atualizarDieta(@PathVariable Long id, @Valid @RequestBody DietaRequestDTO data) {
         try {

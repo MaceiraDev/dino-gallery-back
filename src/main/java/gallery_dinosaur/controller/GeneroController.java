@@ -25,14 +25,12 @@ public class GeneroController {
     @Autowired
     GeneroRepository repository;
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public List<GeneroResponseDTO> geAll() {
         List<GeneroResponseDTO> generoList = repository.findAll().stream().map(GeneroResponseDTO::new).toList();
         return generoList;
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/{id}")
     public ResponseEntity<GeneroResponseDTO> getById(@PathVariable Long id) {
         GeneroResponseDTO genero = repository.findById(id)
@@ -41,7 +39,6 @@ public class GeneroController {
         return ResponseEntity.ok(genero);
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarGenero(@Valid @RequestBody GeneroRequestDTO data) {
         Genero generoData = new Genero(data);
@@ -50,7 +47,6 @@ public class GeneroController {
 
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarGenero(@PathVariable Long id) {
         try {
@@ -69,7 +65,7 @@ public class GeneroController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar a Genero. Por favor, tente novamente mais tarde.");
         }
     }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarGenero(@PathVariable Long id, @Valid @RequestBody GeneroRequestDTO data) {
         try {

@@ -27,7 +27,6 @@ public class UserController {
     @Autowired
     UserRepository repository;
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
 
     public List<UserResponseDTO> getAll() {
@@ -35,7 +34,6 @@ public class UserController {
         return userList;
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
 
     @GetMapping("/buscar/{id}")
     public ResponseEntity<UserResponseDTO> getById(@PathVariable Long id) {
@@ -52,7 +50,6 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body("User criado com sucesso!");
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarUser(@PathVariable Long id) {
         try {
@@ -71,7 +68,6 @@ public class UserController {
         }
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarUser(@PathVariable Long id, @Valid @RequestBody UserRequestDTO data) {
         try {

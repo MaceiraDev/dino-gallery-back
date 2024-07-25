@@ -25,14 +25,12 @@ public class FiloController {
     @Autowired
     FiloRepository repository;
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public List<FiloResponseDTO> geAll() {
         List<FiloResponseDTO> filoList = repository.findAll().stream().map(FiloResponseDTO::new).toList();
         return filoList;
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/{id}")
     public ResponseEntity<FiloResponseDTO> getById(@PathVariable Long id) {
         FiloResponseDTO filo = repository.findById(id)
@@ -41,7 +39,6 @@ public class FiloController {
         return ResponseEntity.ok(filo);
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarFilo(@Valid @RequestBody FiloRequestDTO data) {
         Filo filoData = new Filo(data);
@@ -50,7 +47,6 @@ public class FiloController {
 
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarFilo(@PathVariable Long id) {
         try {
@@ -69,7 +65,6 @@ public class FiloController {
         }
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarFilo(@PathVariable Long id, @Valid @RequestBody FiloRequestDTO data) {
         try {

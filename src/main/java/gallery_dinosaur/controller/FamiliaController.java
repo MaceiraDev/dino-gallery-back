@@ -25,14 +25,12 @@ public class FamiliaController {
     @Autowired
     FamiliaRepository repository;
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public List<FamiliaResponseDTO> geAll() {
         List<FamiliaResponseDTO> familiaList = repository.findAll().stream().map(FamiliaResponseDTO::new).toList();
         return familiaList;
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/{id}")
     public ResponseEntity<FamiliaResponseDTO> getById(@PathVariable Long id) {
         FamiliaResponseDTO familia = repository.findById(id)
@@ -41,7 +39,6 @@ public class FamiliaController {
         return ResponseEntity.ok(familia);
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarFamilia(@Valid @RequestBody FamiliaRequestDTO data) {
         Familia familiaData = new Familia(data);
@@ -49,7 +46,6 @@ public class FamiliaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(" Familia criado com sucesso!");
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarFamilia(@PathVariable Long id) {
         try {
@@ -69,7 +65,6 @@ public class FamiliaController {
         }
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarFamilia(@PathVariable Long id, @Valid @RequestBody FamiliaRequestDTO data) {
         try {

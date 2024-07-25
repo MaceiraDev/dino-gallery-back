@@ -27,14 +27,12 @@ public class SubFamiliaController {
     @Autowired
     SubFamiliaRepository repository;
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public List<SubFamiliaResponseDTO> getAll() {
         List<SubFamiliaResponseDTO> subfamiliaList = repository.findAll().stream().map(SubFamiliaResponseDTO::new).toList();
         return subfamiliaList;
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/{id}")
     public ResponseEntity<SubFamiliaResponseDTO> getById(@PathVariable Long id) {
         SubFamiliaResponseDTO subFamilia = repository.findById(id)
@@ -43,7 +41,6 @@ public class SubFamiliaController {
         return ResponseEntity.ok(subFamilia);
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarSubFamilia(@Valid @RequestBody SubFamiliaRequestDTO data) {
         SubFamilia subfamiliaData = new SubFamilia(data);
@@ -51,7 +48,6 @@ public class SubFamiliaController {
         return ResponseEntity.status(HttpStatus.CREATED).body("SubFamilia criada com sucesso!");
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarSubFamilia(@PathVariable Long id) {
         try {
@@ -70,7 +66,6 @@ public class SubFamiliaController {
         }
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarSubFamilia(@PathVariable Long id, @Valid @RequestBody SubFamiliaRequestDTO data) {
         try {
