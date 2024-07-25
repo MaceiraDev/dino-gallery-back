@@ -40,7 +40,6 @@ public class ImageController {
             uploadDir.mkdirs();
         }
     }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/save")
     public ResponseEntity<List<ImageRequestDTO>> save(@RequestParam("file") MultipartFile file, @RequestParam("dinossauroId") Long dinossauroId) {
         try {

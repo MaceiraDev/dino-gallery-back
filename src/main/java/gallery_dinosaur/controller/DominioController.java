@@ -24,14 +24,12 @@ public class DominioController {
     @Autowired
     DominioRepository repository;
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public List<DominioResponseDTO> getAll() {
         List<DominioResponseDTO> dominioList = repository.findAll().stream().map(DominioResponseDTO::new).toList();
         return dominioList;
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/{id}")
     public ResponseEntity<DominioResponseDTO> getById(@PathVariable Long id) {
         DominioResponseDTO dominio = repository.findById(id)
@@ -40,7 +38,6 @@ public class DominioController {
         return ResponseEntity.ok(dominio);
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarDominio(@Valid @RequestBody DominioRequestDTO data) {
         Dominio dominioData = new Dominio(data);
@@ -49,7 +46,6 @@ public class DominioController {
 
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarDominio(@PathVariable Long id, @Valid @RequestBody DominioRequestDTO data) {
         try {

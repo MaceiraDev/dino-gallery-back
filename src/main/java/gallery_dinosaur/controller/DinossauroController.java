@@ -59,7 +59,6 @@ public class DinossauroController {
     @Autowired
     private ImageRepository imageRepository;
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public List<DinossauroResponseDTO> getAll() {
         // Obtenha todos os dinossauros
@@ -78,9 +77,6 @@ public class DinossauroController {
                 })
                 .collect(Collectors.toList()); // Coletar a lista final
     }
-
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/{id}")
     public ResponseEntity<DinossauroResponseDTO> getById(@PathVariable Long id) {
         Optional<Dinossauro> dinossauroOptional = repository.findById(id);
@@ -98,9 +94,6 @@ public class DinossauroController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
-
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/salvar")
     public ResponseEntity<DinossauroResponseDTO> salvarDinossauro(@Valid @RequestBody DinossauroRequestDTO data) {
         // Buscar as entidades associadas
@@ -132,7 +125,6 @@ public class DinossauroController {
     }
 
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     @Transactional
     public ResponseEntity<String> deletarDinossauro(@PathVariable Long id) {
@@ -158,7 +150,6 @@ public class DinossauroController {
         return ResponseEntity.status(HttpStatus.OK).body("Dinossauro do ID: " + id + " deletado com sucesso!");
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarDinossauro(@PathVariable Long id, @Valid @RequestBody DinossauroRequestDTO data) {
         Optional<Dinossauro> dinossauroOptional = repository.findById(id);

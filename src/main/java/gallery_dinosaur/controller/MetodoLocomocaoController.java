@@ -26,14 +26,12 @@ public class MetodoLocomocaoController {
     @Autowired
     MetodoLocomocaoRepository repository;
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public List<MetodoLocomocaoResponseDTO> geAll() {
         List<MetodoLocomocaoResponseDTO> metodolocomocaoList = repository.findAll().stream().map(MetodoLocomocaoResponseDTO::new).toList();
         return metodolocomocaoList;
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/{id}")
     public ResponseEntity<MetodoLocomocaoResponseDTO> getById(@PathVariable Long id) {
         MetodoLocomocaoResponseDTO metodoLocomocao = repository.findById(id)
@@ -41,7 +39,7 @@ public class MetodoLocomocaoController {
                 .orElseThrow(() -> new EntityNotFoundException("Mtodo de locomoção não encontrada neste ID: " + id));
         return ResponseEntity.ok(metodoLocomocao);
     }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+
     @PostMapping("/salvar")
     public ResponseEntity<String> salvarMetodoLocomocao(@Valid @RequestBody MetodoLocomocaoRequestDTO data) {
         MetodoLocomocao metodolocomocaoData = new MetodoLocomocao(data);
@@ -49,7 +47,7 @@ public class MetodoLocomocaoController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Metodo de Locomoção criada com sucesso!");
 
     }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarMetodoLocomocao(@PathVariable Long id) {
         try {
@@ -67,7 +65,7 @@ public class MetodoLocomocaoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o Metodo de Locomoção. Por favor, tente novamente mais tarde.");
         }
     }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarMetodoLocomocao(@PathVariable Long id, @Valid @RequestBody MetodoLocomocaoRequestDTO data) {
         try {
