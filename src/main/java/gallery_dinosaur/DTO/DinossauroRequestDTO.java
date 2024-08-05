@@ -15,6 +15,9 @@ public class DinossauroRequestDTO {
     private String habitatNatural;
 
     @NotNull
+    private String infoCard;
+
+    @NotNull
     private Long cladoId;
 
     @NotNull
@@ -63,13 +66,13 @@ public class DinossauroRequestDTO {
         return peso;
     }
 
-    public String getDietaPrincipal() {
-        return dietaPrincipal;
-    }
+    public String getDietaPrincipal() {return dietaPrincipal;}
 
     public String getHabitatNatural() {
         return habitatNatural;
     }
+
+    public String getInfoCard() { return infoCard;}
 
     public Long getCladoId() {
         return cladoId;

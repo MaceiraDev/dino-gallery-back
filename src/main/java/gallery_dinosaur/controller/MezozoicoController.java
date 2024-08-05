@@ -12,7 +12,6 @@ public class MezozoicoController {
 
     @Autowired
     private MezozoicoRepository mezozoicoRepository;
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/contarIds")
     public ResponseEntity<Integer> contarTodosIds() {
         int count = mezozoicoRepository.countAllIds();

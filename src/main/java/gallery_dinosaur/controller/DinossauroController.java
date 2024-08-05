@@ -63,7 +63,6 @@ public class DinossauroController {
     public List<DinossauroResponseDTO> getAll() {
         // Obtenha todos os dinossauros
         List<Dinossauro> dinossauros = repository.findAll();
-
         // Para cada dinossauro, buscar suas imagens e criar o DTO
         return dinossauros.stream()
                 .map(dinossauro -> {
@@ -77,6 +76,7 @@ public class DinossauroController {
                 })
                 .collect(Collectors.toList()); // Coletar a lista final
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<DinossauroResponseDTO> getById(@PathVariable Long id) {
         Optional<Dinossauro> dinossauroOptional = repository.findById(id);
@@ -94,6 +94,7 @@ public class DinossauroController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
+
     @PostMapping("/salvar")
     public ResponseEntity<DinossauroResponseDTO> salvarDinossauro(@Valid @RequestBody DinossauroRequestDTO data) {
         // Buscar as entidades associadas
@@ -123,7 +124,6 @@ public class DinossauroController {
         DinossauroResponseDTO responseDTO = new DinossauroResponseDTO(savedDinossauro, List.of()); // Substitua List.of() com a lista de URLs se necessário
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
-
 
     @DeleteMapping("/deletar/{id}")
     @Transactional
@@ -163,6 +163,7 @@ public class DinossauroController {
         dinossauro.setPeso(data.getPeso());
         dinossauro.setDietaPrincipal(data.getDietaPrincipal());
         dinossauro.setHabitatNatural(data.getHabitatNatural());
+        dinossauro.setInfoCard(data.getInfoCard());
         dinossauro.setClado(cladoRepository.findById(data.getCladoId()).orElse(null));
         dinossauro.setDieta(dietaRepository.findById(data.getDietaId()).orElse(null));
         dinossauro.setDominio(dominioRepository.findById(data.getDominioId()).orElse(null));
@@ -178,4 +179,20 @@ public class DinossauroController {
         repository.save(dinossauro);
         return ResponseEntity.status(HttpStatus.OK).body("Dinossauro do ID: " + id + " atualizado com sucesso!");
     }
+
+    //Rotas para o site
+    @GetMapping("/dieta/{tipoDieta}")
+    public List<DinossauroResponseDTO> getByDietaTipo(@PathVariable String tipoDieta) {
+        List<Dinossauro> dinossauros = repository.findByDieta_Tipo(tipoDieta);
+        return dinossauros.stream()
+                .map(dinossauro -> {
+                    List<Image> imagens = imageRepository.findByDinossauroId(dinossauro.getId());
+                    List<ImageResponseDTO> imageResponseDTOs = imagens.stream()
+                            .map(image -> new ImageResponseDTO(image.getUrl()))
+                            .toList();
+                    return new DinossauroResponseDTO(dinossauro, imageResponseDTOs);
+                })
+                .toList();
+    }
+
 }
