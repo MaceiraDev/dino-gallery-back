@@ -34,6 +34,9 @@ public class Dinossauro {
     @Setter
     private String infoCard;
 
+    @Setter
+    private String urn;
+
     @ManyToOne
     @JoinColumn(name = "clado_id")
     private Clado clado;
@@ -88,6 +91,7 @@ public class Dinossauro {
         this.dietaPrincipal = data.getDietaPrincipal();
         this.habitatNatural = data.getHabitatNatural();
         this.infoCard = data.getInfoCard();
+        this.urn = data.getUrn();
         this.clado = clado;
         this.dieta = dieta;
         this.dominio = dominio;

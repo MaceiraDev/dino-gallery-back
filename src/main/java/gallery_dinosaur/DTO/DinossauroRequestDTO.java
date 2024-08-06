@@ -18,6 +18,9 @@ public class DinossauroRequestDTO {
     private String infoCard;
 
     @NotNull
+    private String urn;
+
+    @NotNull
     private Long cladoId;
 
     @NotNull
@@ -74,6 +77,8 @@ public class DinossauroRequestDTO {
 
     public String getInfoCard() { return infoCard;}
 
+    public String getUrn() {return urn;}
+
     public Long getCladoId() {
         return cladoId;
     }
@@ -117,4 +122,6 @@ public class DinossauroRequestDTO {
     public Long getSubFamiliaId() {
         return subFamiliaId;
     }
+
+
 }
