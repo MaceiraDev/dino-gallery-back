@@ -164,7 +164,7 @@ public class DinossauroController {
         dinossauro.setDietaPrincipal(data.getDietaPrincipal());
         dinossauro.setHabitatNatural(data.getHabitatNatural());
         dinossauro.setInfoCard(data.getInfoCard());
-        dinossauro.setUrn(data.getUrn());
+        dinossauro.setUrn(data .getUrn());
         dinossauro.setClado(cladoRepository.findById(data.getCladoId()).orElse(null));
         dinossauro.setDieta(dietaRepository.findById(data.getDietaId()).orElse(null));
         dinossauro.setDominio(dominioRepository.findById(data.getDominioId()).orElse(null));
