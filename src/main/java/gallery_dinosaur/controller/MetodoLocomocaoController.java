@@ -36,7 +36,7 @@ public class MetodoLocomocaoController {
     public ResponseEntity<MetodoLocomocaoResponseDTO> getById(@PathVariable Long id) {
         MetodoLocomocaoResponseDTO metodoLocomocao = repository.findById(id)
                 .map(MetodoLocomocaoResponseDTO::new)
-                .orElseThrow(() -> new EntityNotFoundException("Mtodo de locomoção não encontrada neste ID: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Metodo de locomoção não encontrada neste ID: " + id));
         return ResponseEntity.ok(metodoLocomocao);
     }
 

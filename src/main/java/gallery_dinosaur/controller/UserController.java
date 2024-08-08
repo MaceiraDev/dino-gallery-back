@@ -28,7 +28,6 @@ public class UserController {
     UserRepository repository;
 
     @GetMapping
-
     public List<UserResponseDTO> getAll() {
         List<UserResponseDTO> userList = repository.findAll().stream().map(UserResponseDTO::new).toList();
         return userList;
