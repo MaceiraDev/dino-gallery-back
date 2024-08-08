@@ -8,8 +8,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-@Table(name = "InfoTrivia")
+@Table(name = "infoTrivia")
 @Entity(name = "InfoTrivias")
+@Setter
 public class InfoTrivia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,5 +19,7 @@ public class InfoTrivia {
     private String resposta;
 
     public InfoTrivia(InfoTriviaRequestDTO data) {
+        this.resposta = data.resposta();
+        this.pergunta = data.pergunta();
     }
 }

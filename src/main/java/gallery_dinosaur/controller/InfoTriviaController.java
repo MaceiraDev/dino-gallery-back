@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 @RestController
 @Controller
-@RequestMapping("InfoTrivia")
+@RequestMapping("info-trivia")
 public class InfoTriviaController {
     private static final Logger LOGGER = Logger.getLogger(InfoTriviaController.class.getName());
 
@@ -30,7 +30,7 @@ public class InfoTriviaController {
         return infoTriviaResponsList;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/trivia{id}")
     public ResponseEntity<InfoTriviaResponseDTO> getById(@PathVariable Long id){
         InfoTriviaResponseDTO infoTrivia = repository.findById(id).map(InfoTriviaResponseDTO::new).orElseThrow(()
         -> new EntityNotFoundException("Trivia não encontrada neste ID: " + id));
