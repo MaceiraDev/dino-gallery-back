@@ -25,23 +25,23 @@ public class InfoTriviaController {
     InfoTriviaRepository repository;
 
     @GetMapping
-    public List<InfoTriviaResponseDTO> getAll(){
+    public List<InfoTriviaResponseDTO> getAll() {
         List<InfoTriviaResponseDTO> infoTriviaResponsList = repository.findAll().stream().map(InfoTriviaResponseDTO::new).toList();
         return infoTriviaResponsList;
     }
 
-    @GetMapping("/trivia{id}")
-    public ResponseEntity<InfoTriviaResponseDTO> getById(@PathVariable Long id){
+    @GetMapping("/{id}")
+    public ResponseEntity<InfoTriviaResponseDTO> getById(@PathVariable Long id) {
         InfoTriviaResponseDTO infoTrivia = repository.findById(id).map(InfoTriviaResponseDTO::new).orElseThrow(()
-        -> new EntityNotFoundException("Trivia não encontrada neste ID: " + id));
+                -> new EntityNotFoundException("Trivia não encontrada neste ID: " + id));
         return ResponseEntity.ok(infoTrivia);
     }
 
     @PostMapping("/salvar")
-    public ResponseEntity<String> salvarInfoTrivia(@Valid @RequestBody InfoTriviaRequestDTO data){
+    public ResponseEntity<String> salvarInfoTrivia(@Valid @RequestBody InfoTriviaRequestDTO data) {
         InfoTrivia infoTriviaDATA = new InfoTrivia(data);
         repository.save(infoTriviaDATA);
-    return ResponseEntity.status(HttpStatus.CREATED).body("Trivia criada com sucesso!");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Trivia criada com sucesso!");
     }
 
 
