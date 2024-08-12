@@ -95,6 +95,22 @@ public class DinossauroController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
+    @GetMapping("/{urn}")
+    public ResponseEntity<DinossauroResponseDTO> getByUrn(@PathVariable String urn) {
+        Optional<Dinossauro> dinossauroOptional = repository.findByUrn(urn);
+        if (dinossauroOptional.isPresent()) {
+            Dinossauro dinossauro = dinossauroOptional.get();
+            // Buscar a lista de imagens associadas ao dinossauro
+            List<Image> imagens = imageRepository.findByDinossauroId(dinossauro.getId());
+            List<ImageResponseDTO> imageResponseDTOs = imagens.stream()
+                    .map(image -> new ImageResponseDTO(image.getUrl())) // Criar ImageResponseDTO para cada imagem
+                    .toList();
+            DinossauroResponseDTO dinoResponseDTO = new DinossauroResponseDTO(dinossauro, imageResponseDTOs);
+            return ResponseEntity.ok(dinoResponseDTO);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
+
     @PostMapping("/salvar")
     public ResponseEntity<DinossauroResponseDTO> salvarDinossauro(@Valid @RequestBody DinossauroRequestDTO data) {
         // Buscar as entidades associadas
@@ -151,7 +167,8 @@ public class DinossauroController {
     }
 
     @PutMapping("/atualizar/{id}")
-    public ResponseEntity<String> atualizarDinossauro(@PathVariable Long id, @Valid @RequestBody DinossauroRequestDTO data) {
+    public ResponseEntity<String> atualizarDinossauro(@PathVariable Long
+                                                              id, @Valid @RequestBody DinossauroRequestDTO data) {
         Optional<Dinossauro> dinossauroOptional = repository.findById(id);
         if (dinossauroOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Dinossauro não encontrado para o ID: " + id);
@@ -164,7 +181,7 @@ public class DinossauroController {
         dinossauro.setDietaPrincipal(data.getDietaPrincipal());
         dinossauro.setHabitatNatural(data.getHabitatNatural());
         dinossauro.setInfoCard(data.getInfoCard());
-        dinossauro.setUrn(data .getUrn());
+        dinossauro.setUrn(data.getUrn());
         dinossauro.setClado(cladoRepository.findById(data.getCladoId()).orElse(null));
         dinossauro.setDieta(dietaRepository.findById(data.getDietaId()).orElse(null));
         dinossauro.setDominio(dominioRepository.findById(data.getDominioId()).orElse(null));
