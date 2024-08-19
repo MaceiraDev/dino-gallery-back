@@ -12,16 +12,17 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
+@Setter
 @Table(name = "filme")
 @Entity(name = "Filmes")
 public class Filme {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
-    @Setter
+
     @NotNull(message = "O nome do filme não pode ser vazio")
     private String nome;
-    private Date dtl;
+    private String dtl;
     private String urn;
     private String genero;
     private String sinopse;

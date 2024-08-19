@@ -41,7 +41,7 @@ public class FilmeController {
     }
 
     @PostMapping("/salvar")
-    public ResponseEntity<String> salvarFilme(@Valid @RequestBody FilmeRequestDTO data) {
+    public ResponseEntity<String> salvarFilme(@Valid @RequestBody FilmeRequestDTO data ) {
         Filme filmeData = new Filme(data);
         repository.save(filmeData);
         return ResponseEntity.status(HttpStatus.CREATED).body(" Filme criado com sucesso!");

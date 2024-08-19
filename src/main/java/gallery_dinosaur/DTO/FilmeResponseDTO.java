@@ -4,16 +4,17 @@ import gallery_dinosaur.model.Filme;
 
 import java.util.Date;
 
-public record FilmeResponseDTO(Long id, String nome, String dtl,
+public record FilmeResponseDTO(Long id, String nome,  String dtl,
                                String urn,
                                String genero,
-                               Date sinopse) {
+                               String sinopse) {
     public FilmeResponseDTO(Filme filme) {
         this(filme.getId(), filme.getNome(),
+                filme.getDtl(),
                 filme.getUrn(),
                 filme.getGenero(),
-                filme.getSinopse(),
-                filme.getDtl());
+                filme.getSinopse());
     }
+
 
 }
