@@ -67,7 +67,7 @@ public class FilmeController {
     }
 
     @PutMapping("/atualizar/{id}")
-    public ResponseEntity<String> atualizarFilme(@PathVariable Long Id, @Valid @RequestBody FilmeRequestDTO data) {
+    public ResponseEntity<String> atualizarFilme(@PathVariable("id") Long id, @Valid @RequestBody FilmeRequestDTO data) {
         try {
             Optional<Filme> filmeOptional = repository.findById(id);
             if (filmeOptional.isEmpty()) {
@@ -81,7 +81,6 @@ public class FilmeController {
             LOGGER.severe("Erro ao atualizar o Filme com ID: " + id + ". Erro: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar o Filme. Por favor, tente novamente mais tarde.");
         }
-
     }
 
 
