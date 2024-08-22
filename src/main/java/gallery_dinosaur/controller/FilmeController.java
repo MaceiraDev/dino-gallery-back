@@ -1,10 +1,11 @@
 package gallery_dinosaur.controller;
 
 
-import gallery_dinosaur.DTO.FamiliaResponseDTO;
+
 import gallery_dinosaur.DTO.FilmeRequestDTO;
 import gallery_dinosaur.DTO.FilmeResponseDTO;
 import gallery_dinosaur.model.Filme;
+import gallery_dinosaur.model.Periodo;
 import gallery_dinosaur.repository.FilmeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -75,6 +76,10 @@ public class FilmeController {
             }
             Filme filme = filmeOptional.get();
             filme.setNome(data.nome());
+            filme.setDtl(data.dtl());
+            filme.setUrn(data.urn());
+            filme.setSinopse(data.sinopse());
+            filme.setGenero(data.genero());
             repository.save(filme);
             return ResponseEntity.status(HttpStatus.OK).body("Filme do ID: " + id + " atualizado com sucesso!");
         } catch (Exception e) {
